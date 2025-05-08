@@ -27,4 +27,10 @@ start = "typescript-language-server --stdio"
 
 [deployment]
 run = ["sh", "-c", "npm run build"]
-deploymentTarget = "cloudrun" 
+deploymentTarget = "cloudrun"
+
+[env.PORT]
+value = "3000"
+
+[env.HOST]
+value = "0.0.0.0" 
