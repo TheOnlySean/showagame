@@ -23,10 +23,12 @@ function GamePage() {
   const [showGameOver, setShowGameOver] = useState(false);
   const [showPauseModal, setShowPauseModal] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [showWinModal, setShowWinModal] = useState(false);
+  const [showDemoEnd, setShowDemoEnd] = useState(false);
 
   // 倒計時副作用
   useEffect(() => {
-    if (gameOver || paused) return;
+    if (gameOver || paused || showWinModal) return;
     if (time <= 0) {
       setGameOver(true);
       setShowGameOver(true);
@@ -34,7 +36,7 @@ function GamePage() {
     }
     const timer = setTimeout(() => setTime(time - 1), 1000);
     return () => clearTimeout(timer);
-  }, [time, gameOver, paused]);
+  }, [time, gameOver, paused, showWinModal]);
 
   // 播放按鍵音效
   function playClickSound() {
@@ -65,6 +67,13 @@ function GamePage() {
       playCompleteSound();
     }
   };
+
+  // 當全部熱區找到時彈出勝利彈窗
+  useEffect(() => {
+    if (found.length === spots.length && !showWinModal) {
+      setShowWinModal(true);
+    }
+  }, [found, showWinModal]);
 
   // 彈窗內容
   const gameOverModal = showGameOver ? ReactDOM.createPortal(
@@ -275,6 +284,82 @@ function GamePage() {
     document.body
   ) : null;
 
+  // 勝利彈窗
+  const winModal = showWinModal ? ReactDOM.createPortal(
+    <div className="game-over-modal" style={{zIndex: 10000}}>
+      <div style={{
+        background: '#fffbe8',
+        border: '4px solid #b77b4b',
+        borderRadius: '18px',
+        width: '90vw',
+        maxWidth: 340,
+        minWidth: 220,
+        boxShadow: '0 8px 32px #0005',
+        textAlign: 'center',
+        position: 'relative',
+        padding: '2.2em 1.2em 2em 1.2em',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <div style={{
+          color: '#d32f2f',
+          fontWeight: 'bold',
+          fontSize: '1.5rem',
+          textShadow: '2px 2px 0 #fff',
+          marginBottom: '0.7em',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          letterSpacing: '0.04em',
+        }}>おめでとうございます！</div>
+        <div style={{ fontSize: '1.3rem', marginBottom: '2.2em', color: '#7b3f00', fontWeight: 600 }}>全部見つけました！</div>
+        <div style={{display:'flex', gap:'1.2em', justifyContent:'center', width:'100%'}}>
+          <button
+            style={{
+              flex:1,
+              background:'#c1440e',
+              color:'#fff',
+              fontWeight:'bold',
+              fontSize:'1.1em',
+              border:'none',
+              borderRadius:'12px',
+              boxShadow:'0 2px 8px #b77b4b33',
+              padding:'0.8em 0',
+              marginRight: '0.2em',
+            }}
+            onClick={() => {
+              playClickSound();
+              setShowWinModal(false);
+              navigate('/levels');
+            }}
+          >選択画面に戻る</button>
+          <button
+            style={{
+              flex:1,
+              background:'#e57373',
+              color:'#fff',
+              fontWeight:'bold',
+              fontSize:'1.1em',
+              border:'none',
+              borderRadius:'12px',
+              boxShadow:'0 2px 8px #b77b4b33',
+              padding:'0.8em 0',
+              marginLeft: '0.2em',
+            }}
+            onClick={() => {
+              playClickSound();
+              setShowDemoEnd(true);
+              setTimeout(() => setShowDemoEnd(false), 2000);
+            }}
+          >次のステージへ</button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  ) : null;
+
   return (
     <>
       <TopBar time={time} total={spots.length} found={found.length} />
@@ -284,7 +369,12 @@ function GamePage() {
         <GameBoard found={found} onSpotFound={handleSpotFound} />
         {pauseModal}
         {gameOverModal}
-        {found.length === spots.length && <div className="game-clear">おめでとうございます！全部見つけました！</div>}
+        {winModal}
+        {showDemoEnd && (
+          <div className="toast" style={{zIndex:10001}}>
+            Demo体験はここまでです。ゲームは開発中です。ご期待ください！
+          </div>
+        )}
       </div>
       <ControlBar found={found} spots={spots} onHint={handleHint} onAddTime={handleAddTime} onShare={handleShare} />
     </>

@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import LevelCard from "../components/LevelCard";
 
 const levels = [
-  { title: "懐かしい牛車", img: "/images/bg.png", locked: false },
-  { title: "懐かしいゴム跳び", img: "https://placehold.co/200x200?text=No+Image", locked: true },
-  { title: "懐かしい集金", img: "https://placehold.co/200x200?text=No+Image", locked: true },
-  { title: "懐かしい新学期", img: "https://placehold.co/200x200?text=No+Image", locked: true },
-  { title: "懐かしい昼食", img: "https://placehold.co/200x200?text=No+Image", locked: true },
-  { title: "懐かしい釣り", img: "https://placehold.co/200x200?text=No+Image", locked: true },
+  { title: "懐かしい街並み", img: "/images/bg.png", locked: false },
+  { title: "懐かしい学校", img: "https://placehold.co/200x200?text=No+Image", locked: true },
+  { title: "懐かしい神社", img: "https://placehold.co/200x200?text=No+Image", locked: true },
+  { title: "懐かしい宴会", img: "https://placehold.co/200x200?text=No+Image", locked: true },
+  { title: "懐かしい朝ごはん", img: "https://placehold.co/200x200?text=No+Image", locked: true },
+  { title: "懐かしい駅", img: "https://placehold.co/200x200?text=No+Image", locked: true },
 ];
 
 export default function LevelSelect() {
