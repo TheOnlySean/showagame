@@ -121,9 +121,9 @@ export default function GameBoard({ found, onSpotFound }: Props) {
         const spot = spots.find(s => s.id === id);
         if (!spot) return null;
         
-        // 将图片坐标系（0-1024）转换为容器坐标系
-        const spotX = spot.leftPct * imageRect.width + imageRect.left;
-        const spotY = spot.topPct * imageRect.height + imageRect.top;
+        // 计算热点在容器中的位置和大小
+        const spotX = spot.leftPct * imageRect.width;
+        const spotY = spot.topPct * imageRect.height;
         const spotWidth = spot.widthPct * imageRect.width;
         const spotHeight = spot.heightPct * imageRect.height;
         
@@ -132,8 +132,8 @@ export default function GameBoard({ found, onSpotFound }: Props) {
             key={`found-${id}`}
             style={{
               position: 'absolute',
-              left: spotX,
-              top: spotY,
+              left: imageRect.left + spotX,
+              top: imageRect.top + spotY,
               width: spotWidth,
               height: spotHeight,
               border: '4px solid red',
