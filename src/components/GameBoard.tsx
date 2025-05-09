@@ -71,12 +71,14 @@ export default function GameBoard({ found, onSpotFound }: Props) {
     const imageX = (x - imageRect.left) / imageRect.scale;
     const imageY = (y - imageRect.top) / imageRect.scale;
     
+    // 判定范围放大系数
+    const HIT_SCALE = 1.5;
     // 检查是否点击到热区
     const clickedSpot = spots.find(spot => {
-      const spotX = spot.leftPct * IMAGE_SIZE;
-      const spotY = spot.topPct * IMAGE_SIZE;
-      const spotWidth = spot.widthPct * IMAGE_SIZE;
-      const spotHeight = spot.heightPct * IMAGE_SIZE;
+      const spotX = spot.leftPct * IMAGE_SIZE + spot.widthPct * IMAGE_SIZE / 2;
+      const spotY = spot.topPct * IMAGE_SIZE + spot.heightPct * IMAGE_SIZE / 2;
+      const spotWidth = spot.widthPct * IMAGE_SIZE * HIT_SCALE;
+      const spotHeight = spot.heightPct * IMAGE_SIZE * HIT_SCALE;
       
       return (
         imageX >= spotX - spotWidth/2 &&
