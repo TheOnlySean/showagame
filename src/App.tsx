@@ -67,9 +67,9 @@ function GamePage() {
     if (unfoundSpots.length > 0) {
       // 随机选择一个未发现的点
       const randomSpot = unfoundSpots[Math.floor(Math.random() * unfoundSpots.length)];
-      // 显示提示
-      const hintMessage = `ヒント：${randomSpot.desc}`;
-      alert(hintMessage);
+      // 直接将该点添加到已发现列表中
+      setFound(prev => [...prev, randomSpot.id]);
+      playCompleteSound();
     }
   };
   const handleAddTime = () => {

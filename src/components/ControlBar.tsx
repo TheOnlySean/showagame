@@ -119,10 +119,10 @@ const ControlBar: React.FC<ControlBarProps> = ({
               textAlign: 'left'
             }}>
               広告動画を最後まで視聴すると、<br/>
-              まだ見つけていないアイテムの<br/>
-              ヒントが表示されます。<br/>
+              まだ見つけていないアイテムを<br/>
+              自動的に1つ見つけてくれます。<br/>
               <span style={{ color: '#0288d1', fontWeight: 'bold' }}>
-                ※途中で閉じるとヒントは表示されません
+                ※途中で閉じると機能は発動しません
               </span>
             </p>
             <div style={{ flex: 1, minHeight: 0 }}>
