@@ -83,20 +83,20 @@ const ControlBar: React.FC<ControlBarProps> = ({
         }}>
           <div style={{
             background: '#fff',
-            padding: '15px',
+            padding: '12px',
             borderRadius: '8px',
             width: 'min(85vw, 320px)',
             position: 'relative',
-            maxHeight: '85vh',
+            maxHeight: '90vh',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column'
           }}>
             <p style={{ 
-              marginBottom: '12px', 
+              marginBottom: '8px', 
               color: '#666',
-              fontSize: '0.9em',
-              lineHeight: '1.6',
+              fontSize: '0.8em',
+              lineHeight: '1.4',
               textAlign: 'left'
             }}>
               広告動画を最後まで視聴すると、<br/>
@@ -136,20 +136,20 @@ const ControlBar: React.FC<ControlBarProps> = ({
         }}>
           <div style={{
             background: '#fff',
-            padding: '15px',
+            padding: '12px',
             borderRadius: '8px',
             width: 'min(85vw, 320px)',
             position: 'relative',
-            maxHeight: '85vh',
+            maxHeight: '90vh',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column'
           }}>
             <p style={{ 
-              marginBottom: '12px', 
+              marginBottom: '8px', 
               color: '#666',
-              fontSize: '0.9em',
-              lineHeight: '1.6',
+              fontSize: '0.8em',
+              lineHeight: '1.4',
               textAlign: 'left'
             }}>
               広告動画を最後まで視聴すると、<br/>

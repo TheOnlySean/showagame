@@ -212,7 +212,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
               zIndex: 2
             }}
           >
-            今すぐ試してみる
+            今すぐ試し
           </a>
         </div>
       </div>
