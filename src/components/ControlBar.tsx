@@ -21,7 +21,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
 
   const handleHint = async () => {
     if (!isAdReady) {
-      alert('广告正在加载中，请稍后再试');
+      alert('広告を読み込み中です。しばらくお待ちください。');
       return;
     }
 
@@ -30,13 +30,13 @@ const ControlBar: React.FC<ControlBarProps> = ({
       onHint();
     } catch (error) {
       console.error('Failed to show ad:', error);
-      alert('观看广告失败，请稍后再试');
+      alert('広告の再生に失敗しました。しばらくお待ちください。');
     }
   };
 
   const handleAddTime = async () => {
     if (!isAdReady) {
-      alert('广告正在加载中，请稍后再试');
+      alert('広告を読み込み中です。しばらくお待ちください。');
       return;
     }
 
@@ -45,7 +45,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
       onAddTime();
     } catch (error) {
       console.error('Failed to show ad:', error);
-      alert('观看广告失败，请稍后再试');
+      alert('広告の再生に失敗しました。しばらくお待ちください。');
     }
   };
 
@@ -73,7 +73,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
           disabled={!isAdReady}
         >
           <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#b3e5fc" stroke="#0288d1" strokeWidth="2" /><text x="14" y="19" textAnchor="middle" fontSize="16" fill="#0288d1">ヒ</text></svg>
-          ヒント (看广告)
+          ヒント
         </button>
         <button
           className="addtime-btn"
@@ -81,7 +81,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
           disabled={!isAdReady}
         >
           <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#c8e6c9" stroke="#388e3c" strokeWidth="2" /><text x="14" y="19" textAnchor="middle" fontSize="16" fill="#388e3c">＋</text></svg>
-          時間追加 (看广告)
+          時間追加
         </button>
         <button className="share-btn" onClick={onShare}>
           <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#ffe0b2" stroke="#f57c00" strokeWidth="2" /><text x="14" y="19" textAnchor="middle" fontSize="16" fill="#f57c00">シ</text></svg>
