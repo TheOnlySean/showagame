@@ -164,6 +164,61 @@ function GamePage() {
     document.body
   ) : null;
 
+  // 時間追加廣告彈窗
+  const timeAdModal = showTimeAd ? ReactDOM.createPortal(
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000
+    }}>
+      <div style={{
+        background: '#fff',
+        padding: '12px',
+        borderRadius: '8px',
+        width: 'min(85vw, 320px)',
+        position: 'relative',
+        maxHeight: '90vh',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
+        <p style={{ 
+          marginBottom: '8px', 
+          color: '#666',
+          fontSize: '0.8em',
+          lineHeight: '1.4',
+          textAlign: 'left'
+        }}>
+          広告動画を最後まで視聴すると、<br/>
+          ゲーム時間が60秒追加されます。<br/>
+          <span style={{ color: '#388e3c', fontWeight: 'bold' }}>
+            ※途中で閉じると時間は追加されません
+          </span>
+        </p>
+        <div style={{ flex: 1, minHeight: 0 }}>
+          <PlaceholderAd 
+            width="100%" 
+            height="100%" 
+            onComplete={() => {
+              setShowTimeAd(false);
+              setGameOver(false);
+              setTime(t => t + 60);
+            }}
+            onClose={() => setShowTimeAd(false)}
+          />
+        </div>
+      </div>
+    </div>,
+    document.body
+  ) : null;
+
   // 暫停彈窗
   const pauseModal = showPauseModal ? ReactDOM.createPortal(
     <div className="game-over-modal">
@@ -365,6 +420,7 @@ function GamePage() {
           <GameBoard found={found} onSpotFound={handleSpotFound} />
           {pauseModal}
           {gameOverModal}
+          {timeAdModal}
           {winModal}
           {showDemoEnd && (
             <div className="toast" style={{zIndex:10001}}>
