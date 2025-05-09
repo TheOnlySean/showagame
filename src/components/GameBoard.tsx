@@ -70,45 +70,46 @@ export default function GameBoard({ found, onSpotFound }: Props) {
   }
 
   return (
-    <div className="game-board-container" ref={containerRef}>
-      <img
-        ref={imgRef}
-        src="/images/bg.png"
-        alt="昭和の町"
-        className="game-board-img"
-        onLoad={() => {
-          if (imgRef.current) {
-            setImgSize({ width: imgRef.current.offsetWidth, height: imgRef.current.offsetHeight });
-            setImgNatural({ width: imgRef.current.naturalWidth, height: imgRef.current.naturalHeight });
-          }
-        }}
-        onClick={handleWrongClick}
-        style={{
-          cursor: showWrong ? 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\'><text x=\'8\' y=\'38\' font-size=\'40\' fill=\'red\'>✖️</text></svg>") 24 24, auto' : 'auto',
-          objectFit: 'contain',
-          width: '100%',
-          height: '100%'
-        }}
-      />
-      {showW > 0 && showH > 0 && spots.map((spot) => (
+    <div className="game-board" style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundImage: 'url(/images/bg.png)',
+      backgroundSize: 'contain',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      overflow: 'hidden',
+      touchAction: 'none'
+    }}>
+      {spots.map(spot => (
         <div
           key={spot.id}
+          className={`spot ${found.includes(spot.id) ? 'found' : ''}`}
           style={{
-            position: "absolute",
-            left: offsetX + spot.leftPct * showW,
-            top: offsetY + spot.topPct * showH,
-            width: spot.widthPct * showW,
-            height: spot.heightPct * showH,
-            border: found.includes(spot.id) ? "2px solid red" : "2px solid transparent",
-            borderRadius: "50%",
-            cursor: found.includes(spot.id) ? "default" : "pointer",
-            pointerEvents: found.includes(spot.id) ? "none" : "auto",
-            transition: "border 0.2s",
-            zIndex: 2,
+            position: 'absolute',
+            left: `${spot.leftPct * 100}%`,
+            top: `${spot.topPct * 100}%`,
+            width: `${spot.widthPct * 100}%`,
+            height: `${spot.heightPct * 100}%`,
+            cursor: found.includes(spot.id) ? 'default' : 'pointer',
+            pointerEvents: found.includes(spot.id) ? 'none' : 'auto',
+            zIndex: found.includes(spot.id) ? 0 : 1
           }}
-          title={found.includes(spot.id) ? spot.desc : ""}
-          onClick={e => { e.stopPropagation(); onSpotFound(spot.id); }}
-        />
+          onClick={() => onSpotFound(spot.id)}
+        >
+          {!found.includes(spot.id) && (
+            <div style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+              border: '2px solid rgba(255, 255, 255, 0.4)',
+              boxShadow: '0 0 10px rgba(255, 255, 255, 0.3)'
+            }} />
+          )}
+        </div>
       ))}
       {showWrong && wrong && (
         <div
