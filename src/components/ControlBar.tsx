@@ -83,36 +83,17 @@ const ControlBar: React.FC<ControlBarProps> = ({
         }}>
           <div style={{
             background: '#fff',
-            padding: '20px',
+            padding: '15px',
             borderRadius: '8px',
-            width: 'min(90vw, 360px)',
+            width: 'min(85vw, 320px)',
             position: 'relative',
-            maxHeight: '90vh',
+            maxHeight: '85vh',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column'
           }}>
-            <button
-              onClick={() => setShowHintAd(false)}
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 10,
-                background: 'none',
-                border: 'none',
-                fontSize: '24px',
-                cursor: 'pointer',
-                color: '#666',
-                padding: '5px',
-                lineHeight: 1,
-                zIndex: 2
-              }}
-            >
-              ×
-            </button>
-            <h3 style={{ marginBottom: '15px', color: '#0288d1', textAlign: 'center' }}>ヒント</h3>
             <p style={{ 
-              marginBottom: '15px', 
+              marginBottom: '12px', 
               color: '#666',
               fontSize: '0.9em',
               lineHeight: '1.6',
@@ -155,36 +136,17 @@ const ControlBar: React.FC<ControlBarProps> = ({
         }}>
           <div style={{
             background: '#fff',
-            padding: '20px',
+            padding: '15px',
             borderRadius: '8px',
-            width: 'min(90vw, 360px)',
+            width: 'min(85vw, 320px)',
             position: 'relative',
-            maxHeight: '90vh',
+            maxHeight: '85vh',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column'
           }}>
-            <button
-              onClick={() => setShowTimeAd(false)}
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 10,
-                background: 'none',
-                border: 'none',
-                fontSize: '24px',
-                cursor: 'pointer',
-                color: '#666',
-                padding: '5px',
-                lineHeight: 1,
-                zIndex: 2
-              }}
-            >
-              ×
-            </button>
-            <h3 style={{ marginBottom: '15px', color: '#388e3c', textAlign: 'center' }}>時間追加</h3>
             <p style={{ 
-              marginBottom: '15px', 
+              marginBottom: '12px', 
               color: '#666',
               fontSize: '0.9em',
               lineHeight: '1.6',
