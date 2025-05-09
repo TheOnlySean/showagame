@@ -120,22 +120,28 @@ export default function GameBoard({ found, onSpotFound }: Props) {
       {imageRect && found.map(id => {
         const spot = spots.find(s => s.id === id);
         if (!spot) return null;
-        
+
+        // 计算热点中心点在图片中的像素位置
+        const centerX = imageRect.left + spot.leftPct * imageRect.width;
+        const centerY = imageRect.top + spot.topPct * imageRect.height;
+        // 计算热点宽高
+        const spotWidth = spot.widthPct * imageRect.width;
+        const spotHeight = spot.heightPct * imageRect.height;
+
         return (
           <div
             key={`found-${id}`}
             style={{
               position: 'absolute',
-              left: `${spot.leftPct * 100}%`,
-              top: `${spot.topPct * 100}%`,
-              width: `${spot.widthPct * 100}%`,
-              height: `${spot.heightPct * 100}%`,
+              left: centerX - spotWidth / 2,
+              top: centerY - spotHeight / 2,
+              width: spotWidth,
+              height: spotHeight,
               border: '4px solid red',
               borderRadius: '50%',
               boxShadow: '0 0 10px rgba(255, 0, 0, 0.5)',
               pointerEvents: 'none',
               zIndex: 1000,
-              transform: 'translate(-50%, -50%)',
               margin: 0,
               padding: 0
             }}
