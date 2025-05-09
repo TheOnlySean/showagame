@@ -107,7 +107,13 @@ const ControlBar: React.FC<ControlBarProps> = ({
                 ※途中で閉じると機能は発動しません
               </span>
             </p>
-            <div style={{ flex: 1, minHeight: 0, height: 'calc(90vh - 120px)' }}>
+            <div style={{ 
+              flex: 1, 
+              minHeight: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
               <PlaceholderAd 
                 width="100%" 
                 height="100%" 

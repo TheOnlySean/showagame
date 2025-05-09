@@ -92,8 +92,8 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
     <>
       <div 
         style={{
-          width,
-          height,
+          width: '100%',
+          height: '100%',
           backgroundColor: '#f0f0f0',
           display: 'flex',
           flexDirection: 'column',
@@ -108,7 +108,14 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
           overflow: 'hidden'
         }}
       >
-        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+        <div style={{ 
+          width: '100%', 
+          height: '100%', 
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
           {isLoading && (
             <div style={{
               position: 'absolute',
@@ -147,7 +154,9 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
               width: '100%',
               height: '100%',
               objectFit: 'contain',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              maxWidth: '100%',
+              maxHeight: '100%'
             }}
             controls={false}
             playsInline
