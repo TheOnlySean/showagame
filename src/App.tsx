@@ -10,6 +10,7 @@ import { spots } from "./data/spots";
 import Home from "./pages/Home";
 import LevelSelect from "./pages/LevelSelect";
 import { AdsProvider } from './contexts/AdsContext';
+import PlaceholderAd from './components/PlaceholderAd';
 import './App.css';
 // import type { Spot } from "./data/spots";
 
@@ -115,6 +116,7 @@ function GamePage() {
           視聴ボーナス動画を見ると<br/>
           <span style={{color:'#d32f2f', fontWeight:700}}>60秒</span> 回復できます
         </div>
+        <PlaceholderAd width="90%" height="200px" />
         <div style={{display:'flex', justifyContent:'space-between', gap: '1em', margin:'2em 1em 0 1em'}}>
           <button
             style={{
