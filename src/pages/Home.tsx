@@ -14,11 +14,16 @@ interface HomeProps {
 export default function Home({ onStartGame }: HomeProps) {
   return (
     <div className="home-page" style={{
-      width: "100vw",
-      height: "100vh",
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
       background: "url(/images/cover.png) center center / cover no-repeat",
-      position: "relative",
-      overflow: "hidden"
+      margin: 0,
+      padding: 0,
+      overflow: 'hidden',
+      zIndex: 1
     }}>
       {/* 左側按鈕 */}
       <div className="home-left-btns">
