@@ -237,7 +237,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
             maxWidth: '80%',
             textAlign: 'center'
           }}>
-            <h3 style={{ marginBottom: '15px', color: '#d32f2f' }}>警告</h3>
+            <h3 style={{ marginBottom: '15px', color: '#d32f2f' }}>注意</h3>
             <p style={{ marginBottom: '20px' }}>
               広告を途中で閉じると、ボーナス時間を獲得できません。<br/>
               本当に閉じますか？
