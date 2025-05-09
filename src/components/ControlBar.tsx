@@ -85,14 +85,18 @@ const ControlBar: React.FC<ControlBarProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          zIndex: 1000
+          zIndex: 1000,
+          overflow: 'hidden'
         }}>
           <div style={{
             background: '#fff',
             padding: '12px',
             borderRadius: '8px',
             width: 'min(85vw, 320px)',
-            position: 'relative',
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
             maxHeight: '90vh',
             overflow: 'hidden',
             display: 'flex',
@@ -121,7 +125,8 @@ const ControlBar: React.FC<ControlBarProps> = ({
               alignItems: 'center',
               justifyContent: 'center',
               position: 'relative',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              touchAction: 'none'
             }}>
               <PlaceholderAd 
                 width="100%" 
@@ -148,25 +153,31 @@ const ControlBar: React.FC<ControlBarProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          zIndex: 1000
+          zIndex: 1000,
+          overflow: 'hidden'
         }}>
           <div style={{
             background: '#fff',
             padding: '12px',
             borderRadius: '8px',
             width: 'min(85vw, 320px)',
-            position: 'relative',
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
             maxHeight: '90vh',
             overflow: 'hidden',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            gap: '8px'
           }}>
             <p style={{ 
-              marginBottom: '8px', 
+              margin: '0', 
               color: '#666',
               fontSize: '0.8em',
               lineHeight: '1.4',
-              textAlign: 'left'
+              textAlign: 'left',
+              flexShrink: 0
             }}>
               広告動画を最後まで視聴すると、<br/>
               ゲーム時間が60秒追加されます。<br/>
@@ -174,7 +185,16 @@ const ControlBar: React.FC<ControlBarProps> = ({
                 ※途中で閉じると時間は追加されません
               </span>
             </p>
-            <div style={{ flex: 1, minHeight: 0 }}>
+            <div style={{ 
+              flex: 1, 
+              minHeight: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              overflow: 'hidden',
+              touchAction: 'none'
+            }}>
               <PlaceholderAd 
                 width="100%" 
                 height="100%" 
