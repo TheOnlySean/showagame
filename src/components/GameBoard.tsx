@@ -115,7 +115,7 @@ export default function GameBoard({ found, onSpotFound }: Props) {
             zIndex: 1000
           }}
         >
-          <svg width="56" height="56" viewBox="0 0 56 56">
+          <svg width="56" height="56" viewBox="0 0 56 56" style={{ position: 'absolute', zIndex: 1000 }}>
             <line x1="8" y1="8" x2="48" y2="48" stroke="red" strokeWidth="8" strokeLinecap="round" />
             <line x1="48" y1="8" x2="8" y2="48" stroke="red" strokeWidth="8" strokeLinecap="round" />
           </svg>
@@ -129,15 +129,16 @@ export default function GameBoard({ found, onSpotFound }: Props) {
             key={`found-${id}`}
             style={{
               position: 'absolute',
-              left: `${spot.leftPct * 100}%`,
-              top: `${spot.topPct * 100}%`,
               width: `${spot.widthPct * 100}%`,
               height: `${spot.heightPct * 100}%`,
-              border: '4px solid #4caf50',
+              border: '4px solid red',
               borderRadius: '50%',
-              boxShadow: '0 0 10px rgba(76, 175, 80, 0.5)',
+              boxShadow: '0 0 10px rgba(255, 0, 0, 0.5)',
               pointerEvents: 'none',
-              zIndex: 1000
+              zIndex: 1000,
+              transform: 'translate(-50%, -50%)',
+              left: `${spot.leftPct * 100}%`,
+              top: `${spot.topPct * 100}%`
             }}
           />
         );
