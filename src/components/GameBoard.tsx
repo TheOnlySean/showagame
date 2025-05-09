@@ -6,6 +6,8 @@ interface Props {
   onSpotFound: (id: number) => void;
 }
 
+const IMAGE_SIZE = 1024; // 图片实际尺寸
+
 export default function GameBoard({ found, onSpotFound }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
@@ -27,6 +29,33 @@ export default function GameBoard({ found, onSpotFound }: Props) {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
+  // 计算图片在容器中的实际显示尺寸和位置
+  const getImageRect = () => {
+    if (!containerRef.current) return null;
+    
+    const containerWidth = containerRef.current.offsetWidth;
+    const containerHeight = containerRef.current.offsetHeight;
+    
+    // 计算图片的缩放比例
+    const scale = Math.min(containerWidth / IMAGE_SIZE, containerHeight / IMAGE_SIZE);
+    
+    // 计算图片在容器中的实际显示尺寸
+    const imageWidth = IMAGE_SIZE * scale;
+    const imageHeight = IMAGE_SIZE * scale;
+    
+    // 计算图片在容器中的位置（居中）
+    const imageLeft = (containerWidth - imageWidth) / 2;
+    const imageTop = (containerHeight - imageHeight) / 2;
+    
+    return {
+      left: imageLeft,
+      top: imageTop,
+      width: imageWidth,
+      height: imageHeight,
+      scale
+    };
+  };
+
   // 处理点击事件
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
@@ -35,18 +64,25 @@ export default function GameBoard({ found, onSpotFound }: Props) {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
+    const imageRect = getImageRect();
+    if (!imageRect) return;
+    
+    // 将点击坐标转换为图片坐标系（0-1024）
+    const imageX = (x - imageRect.left) / imageRect.scale;
+    const imageY = (y - imageRect.top) / imageRect.scale;
+    
     // 检查是否点击到热区
     const clickedSpot = spots.find(spot => {
-      const spotX = spot.leftPct * containerSize.width;
-      const spotY = spot.topPct * containerSize.height;
-      const spotWidth = spot.widthPct * containerSize.width;
-      const spotHeight = spot.heightPct * containerSize.height;
+      const spotX = spot.leftPct * IMAGE_SIZE;
+      const spotY = spot.topPct * IMAGE_SIZE;
+      const spotWidth = spot.widthPct * IMAGE_SIZE;
+      const spotHeight = spot.heightPct * IMAGE_SIZE;
       
       return (
-        x >= spotX - spotWidth/2 &&
-        x <= spotX + spotWidth/2 &&
-        y >= spotY - spotHeight/2 &&
-        y <= spotY + spotHeight/2 &&
+        imageX >= spotX - spotWidth/2 &&
+        imageX <= spotX + spotWidth/2 &&
+        imageY >= spotY - spotHeight/2 &&
+        imageY <= spotY + spotHeight/2 &&
         !found.includes(spot.id)
       );
     });
@@ -59,6 +95,8 @@ export default function GameBoard({ found, onSpotFound }: Props) {
       setTimeout(() => setShowWrong(false), 1000);
     }
   };
+
+  const imageRect = getImageRect();
 
   return (
     <div 
@@ -79,18 +117,25 @@ export default function GameBoard({ found, onSpotFound }: Props) {
       }}
       onClick={handleClick}
     >
-      {found.map(id => {
+      {imageRect && found.map(id => {
         const spot = spots.find(s => s.id === id);
         if (!spot) return null;
+        
+        // 将图片坐标系（0-1024）转换为容器坐标系
+        const spotX = spot.leftPct * IMAGE_SIZE * imageRect.scale + imageRect.left;
+        const spotY = spot.topPct * IMAGE_SIZE * imageRect.scale + imageRect.top;
+        const spotWidth = spot.widthPct * IMAGE_SIZE * imageRect.scale;
+        const spotHeight = spot.heightPct * IMAGE_SIZE * imageRect.scale;
+        
         return (
           <div
             key={`found-${id}`}
             style={{
               position: 'absolute',
-              left: `${spot.leftPct * 100}%`,
-              top: `${spot.topPct * 100}%`,
-              width: `${spot.widthPct * 100}%`,
-              height: `${spot.heightPct * 100}%`,
+              left: spotX,
+              top: spotY,
+              width: spotWidth,
+              height: spotHeight,
               border: '4px solid red',
               borderRadius: '50%',
               boxShadow: '0 0 10px rgba(255, 0, 0, 0.5)',
