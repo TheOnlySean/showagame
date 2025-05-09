@@ -115,10 +115,14 @@ export default function GameBoard({ found, onSpotFound }: Props) {
             zIndex: 10,
           }}
         >
-          <svg width="56" height="56" viewBox="0 0 56 56">
-            <line x1="8" y1="8" x2="48" y2="48" stroke="red" strokeWidth="8" strokeLinecap="round" />
-            <line x1="48" y1="8" x2="8" y2="48" stroke="red" strokeWidth="8" strokeLinecap="round" />
-          </svg>
+          <div style={{
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            border: '4px solid red',
+            boxShadow: '0 0 10px rgba(255, 0, 0, 0.5)',
+            animation: 'pulse 0.5s ease-in-out'
+          }} />
         </div>
       )}
     </div>
