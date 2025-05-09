@@ -20,7 +20,7 @@ syntax = "javascript"
 start = "typescript-language-server --stdio"
 
 [deployment]
-run = ["sh", "-c", "npm run build && npm run start"]
+run = ["sh", "-c", "npm run build && serve -s dist"]
 deploymentTarget = "cloudrun"
 
 [[ports]]
