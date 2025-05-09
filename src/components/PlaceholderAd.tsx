@@ -14,7 +14,15 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [currentAd, setCurrentAd] = useState<string>('');
   const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  // 随机选择一个广告视频
+  const getRandomAd = () => {
+    const ads = ['/videos/ad-1.mp4', '/videos/ad-2.mp4', '/videos/ad-3.mp4'];
+    const randomIndex = Math.floor(Math.random() * ads.length);
+    return ads[randomIndex];
+  };
 
   useEffect(() => {
     if (isPlaying && videoRef.current) {
@@ -36,6 +44,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
 
   const handlePlay = () => {
     if (videoRef.current) {
+      setCurrentAd(getRandomAd());
       videoRef.current.play();
       setIsPlaying(true);
     }
@@ -109,7 +118,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
           <div style={{ width: '100%', height: '100%', position: 'relative' }}>
             <video
               ref={videoRef}
-              src="/videos/ad.mp4"
+              src={currentAd}
               style={{
                 width: '100%',
                 height: '100%',
