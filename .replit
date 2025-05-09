@@ -1,9 +1,5 @@
 run = "npm run dev"
 hidden = [".build", "dist", "node_modules"]
-modules = ["nodejs-18:v8-20230920-bd784b9"]
-
-[nix]
-channel = "stable-22_11"
 
 [env]
 PORT = "3000"
