@@ -72,10 +72,10 @@ export default function GameBoard({ found, onSpotFound }: Props) {
   return (
     <div className="game-board" style={{
       position: 'fixed',
-      top: 0,
+      top: '60px', // 顶部栏高度
       left: 0,
       right: 0,
-      bottom: 0,
+      bottom: '60px', // 底部栏高度
       backgroundImage: 'url(/images/bg.png)',
       backgroundSize: 'contain',
       backgroundPosition: 'center',
@@ -98,18 +98,7 @@ export default function GameBoard({ found, onSpotFound }: Props) {
             zIndex: found.includes(spot.id) ? 0 : 1
           }}
           onClick={() => onSpotFound(spot.id)}
-        >
-          {!found.includes(spot.id) && (
-            <div style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: '50%',
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-              border: '2px solid rgba(255, 255, 255, 0.4)',
-              boxShadow: '0 0 10px rgba(255, 255, 255, 0.3)'
-            }} />
-          )}
-        </div>
+        />
       ))}
       {showWrong && wrong && (
         <div

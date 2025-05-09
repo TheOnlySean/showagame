@@ -412,7 +412,15 @@ function GamePage() {
 
   return (
     <AdsProvider clientId="pub-9462097609872972" testMode={true}>
-      <div className="App">
+      <div className="app" style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        overflow: 'hidden',
+        touchAction: 'none'
+      }}>
         <TopBar time={time} total={spots.length} found={found.length} />
         <BackButton onClick={handleBack} />
         <PauseButton onClick={handlePause} />
