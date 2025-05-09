@@ -169,6 +169,20 @@ export default function GameBoard({ found, onSpotFound }: Props) {
           </svg>
         </div>
       )}
+      {imageRect && (
+        <div
+          style={{
+            position: 'absolute',
+            left: imageRect.left,
+            top: imageRect.top,
+            width: imageRect.width,
+            height: imageRect.height,
+            border: '2px dashed blue',
+            pointerEvents: 'none',
+            zIndex: 999
+          }}
+        />
+      )}
     </div>
   );
 } 
