@@ -17,6 +17,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
   const [progress, setProgress] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [currentAd, setCurrentAd] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(true);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   // 随机选择一个广告视频
@@ -29,8 +30,19 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
   useEffect(() => {
     if (videoRef.current) {
       setCurrentAd(getRandomAd());
-      videoRef.current.play();
-      setIsPlaying(true);
+      setIsLoading(true);
+      
+      // 监听视频加载完成事件
+      const handleCanPlay = () => {
+        setIsLoading(false);
+        videoRef.current?.play();
+        setIsPlaying(true);
+      };
+
+      videoRef.current.addEventListener('canplay', handleCanPlay);
+      return () => {
+        videoRef.current?.removeEventListener('canplay', handleCanPlay);
+      };
     }
   }, []);
 
@@ -97,6 +109,37 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
         }}
       >
         <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+          {isLoading && (
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              zIndex: 1
+            }}>
+              <div style={{
+                width: '50px',
+                height: '50px',
+                border: '4px solid #f3f3f3',
+                borderTop: '4px solid #d35400',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite'
+              }} />
+              <style>
+                {`
+                  @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                  }
+                `}
+              </style>
+            </div>
+          )}
           <video
             ref={videoRef}
             src={currentAd}
@@ -107,6 +150,8 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
               borderRadius: '4px'
             }}
             controls={false}
+            playsInline
+            autoPlay
           />
           <div style={{
             position: 'absolute',
@@ -139,7 +184,8 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              fontSize: '20px'
+              fontSize: '20px',
+              zIndex: 2
             }}
           >
             ×

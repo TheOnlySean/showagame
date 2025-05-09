@@ -85,8 +85,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
             background: '#fff',
             padding: '20px',
             borderRadius: '8px',
-            maxWidth: '90%',
-            width: '400px',
+            width: 'min(90vw, 360px)',
             position: 'relative'
           }}>
             <button
@@ -101,7 +100,8 @@ const ControlBar: React.FC<ControlBarProps> = ({
                 cursor: 'pointer',
                 color: '#666',
                 padding: '5px',
-                lineHeight: 1
+                lineHeight: 1,
+                zIndex: 2
               }}
             >
               ×
@@ -109,11 +109,12 @@ const ControlBar: React.FC<ControlBarProps> = ({
             <h3 style={{ marginBottom: '15px', color: '#0288d1', textAlign: 'center' }}>ヒント</h3>
             <PlaceholderAd 
               width="100%" 
-              height="250px" 
+              height="640px" 
               onComplete={() => {
                 setShowHintAd(false);
                 onHint();
               }}
+              onClose={() => setShowHintAd(false)}
             />
           </div>
         </div>
@@ -136,8 +137,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
             background: '#fff',
             padding: '20px',
             borderRadius: '8px',
-            maxWidth: '90%',
-            width: '400px',
+            width: 'min(90vw, 360px)',
             position: 'relative'
           }}>
             <button
@@ -152,7 +152,8 @@ const ControlBar: React.FC<ControlBarProps> = ({
                 cursor: 'pointer',
                 color: '#666',
                 padding: '5px',
-                lineHeight: 1
+                lineHeight: 1,
+                zIndex: 2
               }}
             >
               ×
@@ -160,11 +161,12 @@ const ControlBar: React.FC<ControlBarProps> = ({
             <h3 style={{ marginBottom: '15px', color: '#388e3c', textAlign: 'center' }}>時間追加</h3>
             <PlaceholderAd 
               width="100%" 
-              height="250px" 
+              height="640px" 
               onComplete={() => {
                 setShowTimeAd(false);
                 onAddTime();
               }}
+              onClose={() => setShowTimeAd(false)}
             />
           </div>
         </div>
