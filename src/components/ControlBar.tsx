@@ -107,6 +107,20 @@ const ControlBar: React.FC<ControlBarProps> = ({
               ×
             </button>
             <h3 style={{ marginBottom: '15px', color: '#0288d1', textAlign: 'center' }}>ヒント</h3>
+            <p style={{ 
+              marginBottom: '15px', 
+              color: '#666',
+              fontSize: '0.9em',
+              lineHeight: '1.6',
+              textAlign: 'left'
+            }}>
+              広告動画を最後まで視聴すると、<br/>
+              まだ見つけていないアイテムの<br/>
+              ヒントが表示されます。<br/>
+              <span style={{ color: '#0288d1', fontWeight: 'bold' }}>
+                ※途中で閉じるとヒントは表示されません
+              </span>
+            </p>
             <PlaceholderAd 
               width="100%" 
               height="640px" 
@@ -159,6 +173,19 @@ const ControlBar: React.FC<ControlBarProps> = ({
               ×
             </button>
             <h3 style={{ marginBottom: '15px', color: '#388e3c', textAlign: 'center' }}>時間追加</h3>
+            <p style={{ 
+              marginBottom: '15px', 
+              color: '#666',
+              fontSize: '0.9em',
+              lineHeight: '1.6',
+              textAlign: 'left'
+            }}>
+              広告動画を最後まで視聴すると、<br/>
+              ゲーム時間が60秒追加されます。<br/>
+              <span style={{ color: '#388e3c', fontWeight: 'bold' }}>
+                ※途中で閉じると時間は追加されません
+              </span>
+            </p>
             <PlaceholderAd 
               width="100%" 
               height="640px" 

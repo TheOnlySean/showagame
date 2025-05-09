@@ -60,7 +60,17 @@ function GamePage() {
   // 按鈕事件佔位
   const handleBack = () => { playClickSound(); window.history.back(); };
   const handlePause = () => { playClickSound(); setShowPauseModal(true); setPaused(true); };
-  const handleHint = () => { playClickSound(); alert("ヒント"); };
+  const handleHint = () => {
+    // 找到还未发现的点
+    const unfoundSpots = spots.filter(spot => !found.includes(spot.id));
+    if (unfoundSpots.length > 0) {
+      // 随机选择一个未发现的点
+      const randomSpot = unfoundSpots[Math.floor(Math.random() * unfoundSpots.length)];
+      // 显示提示
+      const hintMessage = `ヒント：${randomSpot.desc}`;
+      alert(hintMessage);
+    }
+  };
   const handleAddTime = () => { playClickSound(); alert("時間追加"); };
   const handleShare = () => { playClickSound(); alert("シェア"); };
 
