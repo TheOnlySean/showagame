@@ -72,10 +72,10 @@ export default function GameBoard({ found, onSpotFound }: Props) {
   return (
     <div className="game-board" style={{
       position: 'fixed',
-      top: '60px', // 顶部栏高度
+      top: '60px',
       left: 0,
       right: 0,
-      bottom: '60px', // 底部栏高度
+      bottom: '60px',
       backgroundImage: 'url(/images/bg.png)',
       backgroundSize: 'contain',
       backgroundPosition: 'center',
@@ -112,19 +112,36 @@ export default function GameBoard({ found, onSpotFound }: Props) {
             alignItems: "center",
             justifyContent: "center",
             pointerEvents: "none",
-            zIndex: 10,
+            zIndex: 1000
           }}
         >
-          <div style={{
-            width: '100%',
-            height: '100%',
-            borderRadius: '50%',
-            border: '4px solid red',
-            boxShadow: '0 0 10px rgba(255, 0, 0, 0.5)',
-            animation: 'pulse 0.5s ease-in-out'
-          }} />
+          <svg width="56" height="56" viewBox="0 0 56 56">
+            <line x1="8" y1="8" x2="48" y2="48" stroke="red" strokeWidth="8" strokeLinecap="round" />
+            <line x1="48" y1="8" x2="8" y2="48" stroke="red" strokeWidth="8" strokeLinecap="round" />
+          </svg>
         </div>
       )}
+      {found.map(id => {
+        const spot = spots.find(s => s.id === id);
+        if (!spot) return null;
+        return (
+          <div
+            key={`found-${id}`}
+            style={{
+              position: 'absolute',
+              left: `${spot.leftPct * 100}%`,
+              top: `${spot.topPct * 100}%`,
+              width: `${spot.widthPct * 100}%`,
+              height: `${spot.heightPct * 100}%`,
+              border: '4px solid #4caf50',
+              borderRadius: '50%',
+              boxShadow: '0 0 10px rgba(76, 175, 80, 0.5)',
+              pointerEvents: 'none',
+              zIndex: 1000
+            }}
+          />
+        );
+      })}
     </div>
   );
 } 
