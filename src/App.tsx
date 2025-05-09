@@ -116,7 +116,15 @@ function GamePage() {
           視聴ボーナス動画を見ると<br/>
           <span style={{color:'#d32f2f', fontWeight:700}}>60秒</span> 回復できます
         </div>
-        <PlaceholderAd width="90%" height="200px" />
+        <PlaceholderAd 
+          width="90%" 
+          height="200px" 
+          onComplete={() => {
+            setShowGameOver(false);
+            setGameOver(false);
+            setTime(t => t + 60);
+          }}
+        />
         <div style={{display:'flex', justifyContent:'space-between', gap: '1em', margin:'2em 1em 0 1em'}}>
           <button
             style={{
