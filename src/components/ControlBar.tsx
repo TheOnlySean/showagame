@@ -20,11 +20,15 @@ const ControlBar: React.FC<ControlBarProps> = ({
   const [showHintAd, setShowHintAd] = useState(false);
   const [showTimeAd, setShowTimeAd] = useState(false);
 
-  const handleHint = () => {
+  const handleHint = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setShowHintAd(true);
   };
 
-  const handleAddTime = () => {
+  const handleAddTime = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setShowTimeAd(true);
   };
 
@@ -50,6 +54,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
           <button
             className="hint-btn"
             onClick={handleHint}
+            onTouchStart={handleHint}
           >
             <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#b3e5fc" stroke="#0288d1" strokeWidth="2" /><text x="14" y="19" textAnchor="middle" fontSize="16" fill="#0288d1">ヒ</text></svg>
             ヒント
@@ -57,6 +62,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
           <button
             className="addtime-btn"
             onClick={handleAddTime}
+            onTouchStart={handleAddTime}
           >
             <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#c8e6c9" stroke="#388e3c" strokeWidth="2" /><text x="14" y="19" textAnchor="middle" fontSize="16" fill="#388e3c">＋</text></svg>
             時間追加
@@ -98,7 +104,8 @@ const ControlBar: React.FC<ControlBarProps> = ({
               color: '#666',
               fontSize: '0.8em',
               lineHeight: '1.4',
-              textAlign: 'left'
+              textAlign: 'left',
+              flexShrink: 0
             }}>
               広告動画を最後まで視聴すると、<br/>
               まだ見つけていないアイテムを<br/>
@@ -112,7 +119,9 @@ const ControlBar: React.FC<ControlBarProps> = ({
               minHeight: 0,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              position: 'relative',
+              overflow: 'hidden'
             }}>
               <PlaceholderAd 
                 width="100%" 
