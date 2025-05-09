@@ -121,27 +121,23 @@ export default function GameBoard({ found, onSpotFound }: Props) {
         const spot = spots.find(s => s.id === id);
         if (!spot) return null;
         
-        // 计算热点在容器中的位置和大小
-        const spotX = spot.leftPct * imageRect.width;
-        const spotY = spot.topPct * imageRect.height;
-        const spotWidth = spot.widthPct * imageRect.width;
-        const spotHeight = spot.heightPct * imageRect.height;
-        
         return (
           <div
             key={`found-${id}`}
             style={{
               position: 'absolute',
-              left: imageRect.left + spotX,
-              top: imageRect.top + spotY,
-              width: spotWidth,
-              height: spotHeight,
+              left: `${spot.leftPct * 100}%`,
+              top: `${spot.topPct * 100}%`,
+              width: `${spot.widthPct * 100}%`,
+              height: `${spot.heightPct * 100}%`,
               border: '4px solid red',
               borderRadius: '50%',
               boxShadow: '0 0 10px rgba(255, 0, 0, 0.5)',
               pointerEvents: 'none',
               zIndex: 1000,
-              transform: 'translate(-50%, -50%)'
+              transform: 'translate(-50%, -50%)',
+              margin: 0,
+              padding: 0
             }}
           />
         );
