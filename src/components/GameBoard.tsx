@@ -122,10 +122,10 @@ export default function GameBoard({ found, onSpotFound }: Props) {
         if (!spot) return null;
         
         // 将图片坐标系（0-1024）转换为容器坐标系
-        const spotX = spot.leftPct * IMAGE_SIZE * imageRect.scale + imageRect.left;
-        const spotY = spot.topPct * IMAGE_SIZE * imageRect.scale + imageRect.top;
-        const spotWidth = spot.widthPct * IMAGE_SIZE * imageRect.scale;
-        const spotHeight = spot.heightPct * IMAGE_SIZE * imageRect.scale;
+        const spotX = spot.leftPct * imageRect.width + imageRect.left;
+        const spotY = spot.topPct * imageRect.height + imageRect.top;
+        const spotWidth = spot.widthPct * imageRect.width;
+        const spotHeight = spot.heightPct * imageRect.height;
         
         return (
           <div
