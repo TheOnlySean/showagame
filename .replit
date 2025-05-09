@@ -20,8 +20,9 @@ syntax = "javascript"
 start = "typescript-language-server --stdio"
 
 [deployment]
-run = ["sh", "-c", "npm run build && serve -s dist"]
+run = ["sh", "-c", "npx serve -s dist -l 3000"]
 deploymentTarget = "cloudrun"
+build = ["sh", "-c", "npm run build"]
 
 [[ports]]
 localPort = 3000
@@ -33,3 +34,15 @@ externalPort = 80
 
 [gitHubImport]
 requiredFiles = [".replit", "replit.nix", ".config"]
+
+[workflows]
+runButton = "Run"
+
+[[workflows.workflow]]
+name = "Run"
+author = 30560671
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
