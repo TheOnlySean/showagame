@@ -121,12 +121,11 @@ export default function GameBoard({ found, onSpotFound }: Props) {
         const spot = spots.find(s => s.id === id);
         if (!spot) return null;
 
-        // 计算热点中心点在图片中的像素位置
-        const centerX = imageRect.left + spot.leftPct * imageRect.width;
-        const centerY = imageRect.top + spot.topPct * imageRect.height;
-        // 计算热点宽高
+        // 修正：假设leftPct/topPct为左上角，显示时加上半宽高和半高
         const spotWidth = spot.widthPct * imageRect.width;
         const spotHeight = spot.heightPct * imageRect.height;
+        const centerX = imageRect.left + (spot.leftPct + spot.widthPct / 2) * imageRect.width;
+        const centerY = imageRect.top + (spot.topPct + spot.heightPct / 2) * imageRect.height;
 
         return (
           <div
