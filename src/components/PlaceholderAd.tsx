@@ -22,7 +22,11 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
 
   // 随机选择一个广告视频
   const getRandomAd = () => {
-    const ads = ['/videos/ad-1.mp4', '/videos/ad-2.mp4', '/videos/ad-3.mp4'];
+    const ads = [
+      'https://firebasestorage.googleapis.com/v0/b/angelsphoto-d2998.firebasestorage.app/o/for%20game%20use%2Fad-1.mp4?alt=media&token=9bc45fda-ae79-4cf2-8318-b7ccf17c90f1',
+      'https://firebasestorage.googleapis.com/v0/b/angelsphoto-d2998.firebasestorage.app/o/for%20game%20use%2Fad-2.mp4?alt=media&token=0f01fa72-163f-4cf3-8f62-4a21a8fe4604',
+      'https://firebasestorage.googleapis.com/v0/b/angelsphoto-d2998.firebasestorage.app/o/for%20game%20use%2Fad-3.mp4?alt=media&token=07f67f09-cb1d-45c9-a5b2-e8c8e6f55801'
+    ];
     const randomIndex = Math.floor(Math.random() * ads.length);
     return ads[randomIndex];
   };
