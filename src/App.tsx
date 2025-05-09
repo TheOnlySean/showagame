@@ -9,6 +9,8 @@ import ControlBar from "./components/ControlBar";
 import { spots } from "./data/spots";
 import Home from "./pages/Home";
 import LevelSelect from "./pages/LevelSelect";
+import { AdsProvider } from './contexts/AdsContext';
+import './App.css';
 // import type { Spot } from "./data/spots";
 
 const TOTAL_TIME = 120; // 秒
@@ -361,23 +363,25 @@ function GamePage() {
   ) : null;
 
   return (
-    <>
-      <TopBar time={time} total={spots.length} found={found.length} />
-      <BackButton onClick={handleBack} />
-      <PauseButton onClick={handlePause} />
-      <div className="main-content">
-        <GameBoard found={found} onSpotFound={handleSpotFound} />
-        {pauseModal}
-        {gameOverModal}
-        {winModal}
-        {showDemoEnd && (
-          <div className="toast" style={{zIndex:10001}}>
-            Demo体験はここまでです。ゲームは開発中です。ご期待ください！
-          </div>
-        )}
+    <AdsProvider clientId="pub-9462097609872972" testMode={true}>
+      <div className="App">
+        <TopBar time={time} total={spots.length} found={found.length} />
+        <BackButton onClick={handleBack} />
+        <PauseButton onClick={handlePause} />
+        <div className="main-content">
+          <GameBoard found={found} onSpotFound={handleSpotFound} />
+          {pauseModal}
+          {gameOverModal}
+          {winModal}
+          {showDemoEnd && (
+            <div className="toast" style={{zIndex:10001}}>
+              Demo体験はここまでです。ゲームは開発中です。ご期待ください！
+            </div>
+          )}
+        </div>
+        <ControlBar found={found} spots={spots} onHint={handleHint} onAddTime={handleAddTime} onShare={handleShare} />
       </div>
-      <ControlBar found={found} spots={spots} onHint={handleHint} onAddTime={handleAddTime} onShare={handleShare} />
-    </>
+    </AdsProvider>
   );
 }
 

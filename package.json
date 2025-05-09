@@ -8,12 +8,15 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "serve -s dist"
+    "start": "vite preview --host 0.0.0.0 --port 5000"
   },
   "dependencies": {
+    "@eslint/js": "^9.26.0",
+    "globals": "^16.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "typescript-eslint": "^8.32.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.64",
@@ -24,8 +27,8 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "serve": "^14.2.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.6"
   }
 }
+
