@@ -4,12 +4,14 @@ interface PlaceholderAdProps {
   width?: string;
   height?: string;
   onComplete?: () => void;
+  onClose?: () => void;
 }
 
 const PlaceholderAd: React.FC<PlaceholderAdProps> = ({ 
   width = '100%', 
   height = '250px',
-  onComplete
+  onComplete,
+  onClose
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -23,6 +25,14 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
     const randomIndex = Math.floor(Math.random() * ads.length);
     return ads[randomIndex];
   };
+
+  useEffect(() => {
+    if (videoRef.current) {
+      setCurrentAd(getRandomAd());
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (isPlaying && videoRef.current) {
@@ -42,17 +52,11 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
     }
   }, [isPlaying, onComplete]);
 
-  const handlePlay = () => {
-    if (videoRef.current) {
-      setCurrentAd(getRandomAd());
-      videoRef.current.play();
-      setIsPlaying(true);
-    }
-  };
-
   const handleCloseAttempt = () => {
     if (progress < 100) {
       setShowConfirmModal(true);
+    } else {
+      onClose?.();
     }
   };
 
@@ -62,6 +66,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
     }
     setIsPlaying(false);
     setShowConfirmModal(false);
+    onClose?.();
   };
 
   const handleCancelClose = () => {
@@ -91,80 +96,55 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
           overflow: 'hidden'
         }}
       >
-        {!isPlaying ? (
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '24px', color: '#666', marginBottom: '10px' }}>
-              広告を再生
-            </div>
-            <button
-              onClick={handlePlay}
-              style={{
-                background: '#d35400',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '10px 20px',
-                fontSize: '16px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
-              <span>▶️</span> 再生する
-            </button>
-          </div>
-        ) : (
-          <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-            <video
-              ref={videoRef}
-              src={currentAd}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '4px'
-              }}
-              controls={false}
-            />
+        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+          <video
+            ref={videoRef}
+            src={currentAd}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '4px'
+            }}
+            controls={false}
+          />
+          <div style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '4px',
+            backgroundColor: '#ddd'
+          }}>
             <div style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: '4px',
-              backgroundColor: '#ddd'
-            }}>
-              <div style={{
-                width: `${progress}%`,
-                height: '100%',
-                backgroundColor: '#d35400',
-                transition: 'width 0.1s linear'
-              }} />
-            </div>
-            <button
-              onClick={handleCloseAttempt}
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 10,
-                background: 'rgba(0, 0, 0, 0.5)',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '50%',
-                width: '30px',
-                height: '30px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                fontSize: '20px'
-              }}
-            >
-              ×
-            </button>
+              width: `${progress}%`,
+              height: '100%',
+              backgroundColor: '#d35400',
+              transition: 'width 0.1s linear'
+            }} />
           </div>
-        )}
+          <button
+            onClick={handleCloseAttempt}
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 10,
+              background: 'rgba(0, 0, 0, 0.5)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '50%',
+              width: '30px',
+              height: '30px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              fontSize: '20px'
+            }}
+          >
+            ×
+          </button>
+        </div>
       </div>
 
       {showConfirmModal && (

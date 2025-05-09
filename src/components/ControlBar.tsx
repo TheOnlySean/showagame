@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useAds } from "../contexts/AdsContext";
 import type { Spot } from "../data/spots";
 import PlaceholderAd from "./PlaceholderAd";
 
@@ -87,8 +86,26 @@ const ControlBar: React.FC<ControlBarProps> = ({
             padding: '20px',
             borderRadius: '8px',
             maxWidth: '90%',
-            width: '400px'
+            width: '400px',
+            position: 'relative'
           }}>
+            <button
+              onClick={() => setShowHintAd(false)}
+              style={{
+                position: 'absolute',
+                top: 10,
+                right: 10,
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: '#666',
+                padding: '5px',
+                lineHeight: 1
+              }}
+            >
+              ×
+            </button>
             <h3 style={{ marginBottom: '15px', color: '#0288d1', textAlign: 'center' }}>ヒント</h3>
             <PlaceholderAd 
               width="100%" 
@@ -120,8 +137,26 @@ const ControlBar: React.FC<ControlBarProps> = ({
             padding: '20px',
             borderRadius: '8px',
             maxWidth: '90%',
-            width: '400px'
+            width: '400px',
+            position: 'relative'
           }}>
+            <button
+              onClick={() => setShowTimeAd(false)}
+              style={{
+                position: 'absolute',
+                top: 10,
+                right: 10,
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: '#666',
+                padding: '5px',
+                lineHeight: 1
+              }}
+            >
+              ×
+            </button>
             <h3 style={{ marginBottom: '15px', color: '#388e3c', textAlign: 'center' }}>時間追加</h3>
             <PlaceholderAd 
               width="100%" 
