@@ -86,7 +86,11 @@ const ControlBar: React.FC<ControlBarProps> = ({
             padding: '20px',
             borderRadius: '8px',
             width: 'min(90vw, 360px)',
-            position: 'relative'
+            position: 'relative',
+            maxHeight: '90vh',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column'
           }}>
             <button
               onClick={() => setShowHintAd(false)}
@@ -121,15 +125,17 @@ const ControlBar: React.FC<ControlBarProps> = ({
                 ※途中で閉じるとヒントは表示されません
               </span>
             </p>
-            <PlaceholderAd 
-              width="100%" 
-              height="640px" 
-              onComplete={() => {
-                setShowHintAd(false);
-                onHint();
-              }}
-              onClose={() => setShowHintAd(false)}
-            />
+            <div style={{ flex: 1, minHeight: 0 }}>
+              <PlaceholderAd 
+                width="100%" 
+                height="100%" 
+                onComplete={() => {
+                  setShowHintAd(false);
+                  onHint();
+                }}
+                onClose={() => setShowHintAd(false)}
+              />
+            </div>
           </div>
         </div>
       )}
@@ -152,7 +158,11 @@ const ControlBar: React.FC<ControlBarProps> = ({
             padding: '20px',
             borderRadius: '8px',
             width: 'min(90vw, 360px)',
-            position: 'relative'
+            position: 'relative',
+            maxHeight: '90vh',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column'
           }}>
             <button
               onClick={() => setShowTimeAd(false)}
@@ -186,15 +196,17 @@ const ControlBar: React.FC<ControlBarProps> = ({
                 ※途中で閉じると時間は追加されません
               </span>
             </p>
-            <PlaceholderAd 
-              width="100%" 
-              height="640px" 
-              onComplete={() => {
-                setShowTimeAd(false);
-                onAddTime();
-              }}
-              onClose={() => setShowTimeAd(false)}
-            />
+            <div style={{ flex: 1, minHeight: 0 }}>
+              <PlaceholderAd 
+                width="100%" 
+                height="100%" 
+                onComplete={() => {
+                  setShowTimeAd(false);
+                  onAddTime();
+                }}
+                onClose={() => setShowTimeAd(false)}
+              />
+            </div>
           </div>
         </div>
       )}
