@@ -190,6 +190,30 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
           >
             ×
           </button>
+          <a
+            href="https://angelsphoto.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              position: 'absolute',
+              bottom: 20,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              background: '#d35400',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '20px',
+              padding: '8px 20px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              textDecoration: 'none',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+              zIndex: 2
+            }}
+          >
+            今すぐ試してみる
+          </a>
         </div>
       </div>
 

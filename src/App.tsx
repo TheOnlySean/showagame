@@ -28,6 +28,7 @@ function GamePage() {
   const [paused, setPaused] = useState(false);
   const [showWinModal, setShowWinModal] = useState(false);
   const [showDemoEnd, setShowDemoEnd] = useState(false);
+  const [showTimeAd, setShowTimeAd] = useState(false);
 
   // 倒計時副作用
   useEffect(() => {
@@ -71,7 +72,10 @@ function GamePage() {
       alert(hintMessage);
     }
   };
-  const handleAddTime = () => { playClickSound(); alert("時間追加"); };
+  const handleAddTime = () => {
+    setGameOver(false); // 确保游戏不会处于结束状态
+    setTime(t => t + 60);
+  };
   const handleShare = () => { playClickSound(); alert("シェア"); };
 
   const handleSpotFound = (id: number) => {
@@ -141,7 +145,7 @@ function GamePage() {
           <button
             onClick={() => {
               setShowGameOver(false);
-              setTime(t => t + 60);
+              setShowTimeAd(true);
             }}
             style={{
               background: '#ff9800',
