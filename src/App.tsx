@@ -78,102 +78,71 @@ function GamePage() {
     }
   }, [found, showWinModal]);
 
+  const resetGame = () => {
+    setGameOver(false);
+    setFound([]);
+    setTime(TOTAL_TIME);
+  };
+
   // 彈窗內容
   const gameOverModal = showGameOver ? ReactDOM.createPortal(
-    <div className="game-over-modal">
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000
+    }}>
       <div style={{
-        background: '#f5ecd7',
-        border: '4px solid #b77b4b',
-        borderRadius: '18px',
-        width: '90vw',
-        maxWidth: 320,
-        minWidth: 220,
-        boxShadow: '0 8px 32px #0005',
-        textAlign: 'center',
-        position: 'relative',
-        padding: '0 0 1.2em 0'
+        background: '#fff',
+        padding: '20px',
+        borderRadius: '8px',
+        maxWidth: '90%',
+        width: '400px',
+        textAlign: 'center'
       }}>
-        <div style={{
-          position: 'absolute',
-          left: '50%',
-          top: '-32px',
-          transform: 'translateX(-50%)',
-          background: '#e6a23c',
-          color: '#fff',
-          fontWeight: 'bold',
-          fontSize: '1.2em',
-          borderRadius: '18px',
-          padding: '0.3em 1.5em',
-          letterSpacing: '0.2em',
-          boxShadow: '0 2px 8px #b77b4b33',
-          border: '2.5px solid #fff3e0',
-          zIndex: 2,
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis'
-        }}>時間切れ！</div>
-        <div style={{marginTop: 40, fontSize: '1.1em', color: '#7b3f00', fontWeight: 600, lineHeight: 1.6}}>
-          視聴ボーナス動画を見ると<br/>
-          <span style={{color:'#d32f2f', fontWeight:700}}>60秒</span> 回復できます
-        </div>
-        <PlaceholderAd 
-          width="90%" 
-          height="200px" 
-          onComplete={() => {
-            setShowGameOver(false);
-            setGameOver(false);
-            setTime(t => t + 60);
-          }}
-        />
-        <div style={{display:'flex', justifyContent:'space-between', gap: '1em', margin:'2em 1em 0 1em'}}>
+        <h2 style={{ marginBottom: '20px', color: '#d32f2f' }}>ゲームオーバー</h2>
+        <p style={{ marginBottom: '20px' }}>
+          時間切れです。<br/>
+          もう一度チャレンジしますか？
+        </p>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
           <button
-            style={{
-              flex:1,
-              background:'#c1440e',
-              color:'#fff',
-              fontWeight:'bold',
-              fontSize:'1em',
-              border:'none',
-              borderRadius:'12px',
-              boxShadow:'0 2px 8px #b77b4b33',
-              padding:'0.6em 0',
-              marginRight: '0.2em',
-            }}
             onClick={() => {
-              playClickSound();
               setShowGameOver(false);
-              setGameOver(false);
-              setFound([]);
-              setTime(TOTAL_TIME);
+              resetGame();
             }}
-          >やめる</button>
-          <button
             style={{
-              flex:1,
-              background:'#d35400',
-              color:'#fff',
-              fontWeight:'bold',
-              fontSize:'1em',
-              border:'none',
-              borderRadius:'12px',
-              boxShadow:'0 2px 8px #b77b4b33',
-              padding:'0.6em 0',
-              marginLeft: '0.2em',
-              display:'flex',
-              alignItems:'center',
-              justifyContent:'center',
-              gap:'0.4em'
-            }}
-            onClick={async () => {
-              playClickSound();
-              // 這裡可接入Google廣告SDK
-              // 模擬看完廣告
-              setShowGameOver(false);
-              setGameOver(false);
-              setTime(t => t + 60);
+              background: '#4caf50',
+              color: '#fff',
+              border: 'none',
+              padding: '8px 16px',
+              borderRadius: '4px',
+              cursor: 'pointer'
             }}
           >
-            <span style={{fontSize:'1.1em'}}>📺</span> すぐ加時
+            リスタート
+          </button>
+          <button
+            onClick={() => {
+              setShowGameOver(false);
+              setTime(t => t + 60);
+            }}
+            style={{
+              background: '#ff9800',
+              color: '#fff',
+              border: 'none',
+              padding: '8px 16px',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            時間追加
           </button>
         </div>
       </div>
