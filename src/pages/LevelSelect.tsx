@@ -14,7 +14,20 @@ const levels = [
 export default function LevelSelect() {
   const navigate = useNavigate();
   return (
-    <div className="level-select-page">
+    <div className="level-select-page" style={{
+      minHeight: '100vh',
+      width: '100vw',
+      background: "#f5ecd7 url('/images/showa-paper-bg.png') center center / cover no-repeat",
+      boxShadow: '0 0 32px #b77b4b33 inset',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      paddingBottom: '0.5em',
+      overflowX: 'hidden',
+      overflowY: 'hidden',
+      margin: 0,
+      zIndex: 0
+    }}>
       {/* 頂部欄 */}
       <div className="level-select-header">
         <button className="level-back-btn" onClick={() => navigate("/")}>⬅️</button>

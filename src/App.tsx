@@ -353,6 +353,12 @@ function GamePage() {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
+        {/* Demo提示语，始终显示在最前面 */}
+        {showDemoEnd && (
+          <div style={{whiteSpace:'pre-line', fontSize:'1.1em', lineHeight:1.7, maxWidth:'90vw', margin:'0 auto 1em auto', padding:'1.2em 1.5em', background:'#fffbe8', color:'#b77b4b', borderRadius:'14px', boxShadow:'0 2px 12px #b77b4b22', fontWeight:600, textAlign:'center'}}>
+            Demo体験はここまでです。\nゲームは開発中です。\nご期待ください！
+          </div>
+        )}
         <div style={{
           color: '#d32f2f',
           fontWeight: 'bold',
@@ -430,13 +436,6 @@ function GamePage() {
           {gameOverModal}
           {timeAdModal}
           {winModal}
-          {showDemoEnd && (
-            <div className="toast" style={{zIndex:10001, whiteSpace:'pre-line', fontSize:'1.1em', lineHeight:1.7, maxWidth:'90vw', margin:'0 auto', padding:'1.2em 1.5em', background:'#fffbe8', color:'#b77b4b', borderRadius:'14px', boxShadow:'0 2px 12px #b77b4b22', fontWeight:600, textAlign:'center'}}>
-              Demo体験はここまでです。
-              {'\n'}ゲームは開発中です。
-              {'\n'}ご期待ください！
-            </div>
-          )}
         </div>
         <ControlBar found={found} spots={spots} onHint={handleHint} onAddTime={handleAddTime} onShare={handleShare} />
       </div>
