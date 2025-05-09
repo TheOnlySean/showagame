@@ -71,8 +71,8 @@ export default function GameBoard({ found, onSpotFound }: Props) {
     const imageX = (x - imageRect.left) / imageRect.scale;
     const imageY = (y - imageRect.top) / imageRect.scale;
     
-    // 判定范围放大系数
-    const HIT_SCALE = 1.5;
+    // 判定范围缩小为1.2倍
+    const HIT_SCALE = 1.2;
     // 检查是否点击到热区
     const clickedSpot = spots.find(spot => {
       const spotX = spot.leftPct * IMAGE_SIZE + spot.widthPct * IMAGE_SIZE / 2;
@@ -106,16 +106,20 @@ export default function GameBoard({ found, onSpotFound }: Props) {
       className="game-board" 
       style={{
         position: 'fixed',
-        top: '60px',
+        top: 0,
         left: 0,
         right: 0,
-        bottom: '60px',
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
         backgroundImage: 'url(/images/bg.png)',
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         overflow: 'hidden',
-        touchAction: 'none'
+        touchAction: 'none',
+        margin: 0,
+        padding: 0
       }}
       onClick={handleClick}
     >
@@ -169,20 +173,6 @@ export default function GameBoard({ found, onSpotFound }: Props) {
             <line x1="48" y1="8" x2="8" y2="48" stroke="red" strokeWidth="8" strokeLinecap="round" />
           </svg>
         </div>
-      )}
-      {imageRect && (
-        <div
-          style={{
-            position: 'absolute',
-            left: imageRect.left,
-            top: imageRect.top,
-            width: imageRect.width,
-            height: imageRect.height,
-            border: '2px dashed blue',
-            pointerEvents: 'none',
-            zIndex: 999
-          }}
-        />
       )}
     </div>
   );
