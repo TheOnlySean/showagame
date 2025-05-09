@@ -90,10 +90,11 @@ const ControlBar: React.FC<ControlBarProps> = ({
             maxHeight: '90vh',
             overflow: 'hidden',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            gap: '8px'
           }}>
             <p style={{ 
-              marginBottom: '8px', 
+              margin: '0', 
               color: '#666',
               fontSize: '0.8em',
               lineHeight: '1.4',
@@ -106,7 +107,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
                 ※途中で閉じると機能は発動しません
               </span>
             </p>
-            <div style={{ flex: 1, minHeight: 0 }}>
+            <div style={{ flex: 1, minHeight: 0, height: 'calc(90vh - 120px)' }}>
               <PlaceholderAd 
                 width="100%" 
                 height="100%" 

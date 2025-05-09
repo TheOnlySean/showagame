@@ -101,8 +101,8 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
           justifyContent: 'center',
           borderRadius: '8px',
           border: '1px solid #ddd',
-          margin: '20px 0',
-          padding: '20px',
+          margin: '0',
+          padding: '0',
           boxSizing: 'border-box',
           position: 'relative',
           overflow: 'hidden'
@@ -146,7 +146,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
+              objectFit: 'contain',
               borderRadius: '4px'
             }}
             controls={false}
