@@ -34,6 +34,8 @@ function GamePage() {
   const [showWinModal, setShowWinModal] = useState(false);
   const [showDemoEnd, setShowDemoEnd] = useState(false);
   const [showTimeAd, setShowTimeAd] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [pendingShareReward, setPendingShareReward] = useState(false);
 
   // 倒計時副作用
   useEffect(() => {
@@ -103,71 +105,29 @@ function GamePage() {
     setTime(TOTAL_TIME);
   };
 
-  // 彈窗內容
-  const gameOverModal = showGameOver ? ReactDOM.createPortal(
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000
-    }}>
-      <div style={{
-        background: '#fff',
-        padding: '20px',
-        borderRadius: '8px',
-        maxWidth: '90%',
-        width: '400px',
-        textAlign: 'center'
-      }}>
-        <h2 style={{ marginBottom: '20px', color: '#d32f2f' }}>ゲームオーバー</h2>
-        <p style={{ marginBottom: '20px' }}>
-          時間切れです。<br/>
-          もう一度チャレンジしますか？
-        </p>
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-          <button
-            onClick={() => {
-              setShowGameOver(false);
-              resetGame();
-            }}
-            style={{
-              background: '#4caf50',
-              color: '#fff',
-              border: 'none',
-              padding: '8px 16px',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            リスタート
-          </button>
-          <button
-            onClick={() => {
-              setShowGameOver(false);
-              setShowTimeAd(true);
-            }}
-            style={{
-              background: '#ff9800',
-              color: '#fff',
-              border: 'none',
-              padding: '8px 16px',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            時間追加
-          </button>
-        </div>
-      </div>
-    </div>,
-    document.body
-  ) : null;
+  // 监听页面可见性变化，判断用户是否从LINE返回
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible' && pendingShareReward) {
+        setPendingShareReward(false);
+        setTime(t => t + 30);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, [pendingShareReward]);
+
+  const handleShareReward = () => {
+    setShowShareModal(true);
+  };
+  const doShare = () => {
+    const shareUrl = encodeURIComponent(window.location.href);
+    const shareText = encodeURIComponent("昭和まちがい探しで遊ぼう！一緒に間違いを探そう！");
+    const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
+    setPendingShareReward(true);
+    setShowShareModal(false);
+    window.open(lineShareUrl, '_blank');
+  };
 
   // 時間追加廣告彈窗
   const timeAdModal = showTimeAd ? ReactDOM.createPortal(
@@ -422,6 +382,112 @@ function GamePage() {
           >次のステージへ</button>
         </div>
       </div>
+    </div>,
+    document.body
+  ) : null;
+
+  // Game Over 弹窗
+  const gameOverModal = showGameOver ? ReactDOM.createPortal(
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000
+    }}>
+      <div style={{
+        background: '#fff',
+        padding: '20px',
+        borderRadius: '8px',
+        maxWidth: '90%',
+        width: '400px',
+        textAlign: 'center'
+      }}>
+        <h2 style={{ marginBottom: '20px', color: '#d32f2f' }}>ゲームオーバー</h2>
+        <p style={{ marginBottom: '20px' }}>
+          時間切れです。<br/>
+          もう一度チャレンジしますか？
+        </p>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+          <button
+            onClick={() => {
+              setShowGameOver(false);
+              resetGame();
+            }}
+            style={{
+              background: '#4caf50',
+              color: '#fff',
+              border: 'none',
+              padding: '8px 16px',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >リスタート</button>
+          <button
+            onClick={handleShareReward}
+            style={{
+              background: '#1976d2',
+              color: '#fff',
+              border: 'none',
+              padding: '8px 16px',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >シェアで+30秒</button>
+          <button
+            onClick={() => {
+              setShowGameOver(false);
+              setShowTimeAd(true);
+            }}
+            style={{
+              background: '#ff9800',
+              color: '#fff',
+              border: 'none',
+              padding: '8px 16px',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >広告で+60秒</button>
+        </div>
+      </div>
+      {showShareModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 2000
+        }}>
+          <div style={{
+            background: '#fff',
+            borderRadius: '12px',
+            padding: '2em 1.5em 1.5em 1.5em',
+            minWidth: 240,
+            maxWidth: '90vw',
+            textAlign: 'center',
+            boxShadow: '0 4px 16px #b77b4b33',
+            fontSize: '1.1em',
+            color: '#b77b4b',
+            fontWeight: 600
+          }}>
+            このゲームを友だちにシェアすると、<br/>30秒の延長がもらえます！<br/><br/>
+            <div style={{display:'flex', gap:'1.2em', justifyContent:'center', marginTop:'1.5em'}}>
+              <button style={{flex:1, background:'#e57373', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={()=>setShowShareModal(false)}>放棄</button>
+              <button style={{flex:1, background:'#388e3c', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={doShare}>シェア</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>,
     document.body
   ) : null;
