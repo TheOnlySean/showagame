@@ -410,10 +410,6 @@ function GamePage() {
         textAlign: 'center',
         margin: '0 auto',
         boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
       }}>
         <h2 style={{ marginBottom: '20px', color: '#d32f2f' }}>ゲームオーバー</h2>
         <p style={{ marginBottom: '20px' }}>
@@ -421,13 +417,9 @@ function GamePage() {
           再挑戦しますか？
         </p>
         <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column',
-          gap: '14px', 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          width: '100%',
-          marginTop: '1.2em'
+          marginTop: '1.2em',
+          display: 'block',
+          width: '100%'
         }}>
           <button
             onClick={() => {
@@ -442,7 +434,6 @@ function GamePage() {
               borderRadius: '6px',
               cursor: 'pointer',
               width: '100%',
-              maxWidth: '300px',
               animation: 'bounce 1.2s infinite',
               animationName: 'bounce',
               animationDuration: '1.2s',
@@ -454,7 +445,6 @@ function GamePage() {
               fontWeight: 'bold',
               fontSize: '1em',
               animationPlayState: 'paused',
-              margin: '0 auto'
             }}
           >再挑戦</button>
           <button
@@ -467,11 +457,9 @@ function GamePage() {
               borderRadius: '6px',
               cursor: 'pointer',
               width: '100%',
-              maxWidth: '300px',
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em',
-              margin: '0 auto'
             }}
           >シェアして30秒延長</button>
           <button
@@ -487,11 +475,9 @@ function GamePage() {
               borderRadius: '6px',
               cursor: 'pointer',
               width: '100%',
-              maxWidth: '300px',
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em',
-              margin: '0 auto'
             }}
           >広告視聴で60秒延長</button>
         </div>
