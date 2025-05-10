@@ -436,7 +436,10 @@ function GamePage() {
               border: 'none',
               padding: '8px 16px',
               borderRadius: '4px',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              animation: 'bounce 1.2s infinite',
+              fontWeight: 'bold',
+              fontSize: '1em'
             }}
           >シェアで+30秒</button>
           <button
@@ -450,7 +453,10 @@ function GamePage() {
               border: 'none',
               padding: '8px 16px',
               borderRadius: '4px',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              animation: 'bounce 1.2s infinite',
+              fontWeight: 'bold',
+              fontSize: '1em'
             }}
           >広告で+60秒</button>
         </div>
