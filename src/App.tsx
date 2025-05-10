@@ -419,7 +419,8 @@ function GamePage() {
           flexDirection: 'column',
           gap: '10px', 
           justifyContent: 'center', 
-          marginTop: '1.2em'
+          marginTop: '1.2em',
+          alignItems: 'center'
         }}>
           <button
             onClick={() => {
@@ -433,7 +434,7 @@ function GamePage() {
               padding: '8px 16px',
               borderRadius: '4px',
               cursor: 'pointer',
-              width: '100%',
+              width: '80%',
               animation: undefined,
               fontWeight: 'bold',
               fontSize: '1em'
@@ -448,7 +449,7 @@ function GamePage() {
               padding: '8px 16px',
               borderRadius: '4px',
               cursor: 'pointer',
-              width: '100%',
+              width: '80%',
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em'
@@ -466,7 +467,7 @@ function GamePage() {
               padding: '8px 16px',
               borderRadius: '4px',
               cursor: 'pointer',
-              width: '100%',
+              width: '80%',
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em'

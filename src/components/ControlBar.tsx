@@ -67,7 +67,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
   };
 
   const doShare = () => {
-    const shareUrl = encodeURIComponent(window.location.href);
+    const shareUrl = encodeURIComponent(window.location.origin);
     const shareText = encodeURIComponent("昭和まちがい探しで遊ぼう！一緒に間違いを探そう！");
     const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
     
