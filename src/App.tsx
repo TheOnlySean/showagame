@@ -211,7 +211,10 @@ function GamePage() {
               setGameOver(false);
               setTime(t => t + 60);
             }}
-            onClose={() => setShowTimeAd(false)}
+            onClose={() => {
+              setShowTimeAd(false);
+              resetGame();
+            }}
           />
         </div>
       </div>
