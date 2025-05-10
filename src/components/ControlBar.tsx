@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { Spot } from "../data/spots";
 import PlaceholderAd from "./PlaceholderAd";
 
@@ -19,6 +19,8 @@ const ControlBar: React.FC<ControlBarProps> = ({
 }) => {
   const [showHintAd, setShowHintAd] = useState(false);
   const [showTimeAd, setShowTimeAd] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [pendingShareReward, setPendingShareReward] = useState(false);
 
   const handleHint = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -32,12 +34,33 @@ const ControlBar: React.FC<ControlBarProps> = ({
     setShowTimeAd(true);
   };
 
+  // 监听页面可见性变化，判断用户是否从LINE返回
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible' && pendingShareReward) {
+        setPendingShareReward(false);
+        // 触发加30秒
+        if (typeof window.onShareReward === 'function') {
+          window.onShareReward();
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, [pendingShareReward]);
+
   const handleShare = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setShowShareModal(true);
+  };
+
+  const doShare = () => {
     const shareUrl = encodeURIComponent(window.location.href);
     const shareText = encodeURIComponent("昭和まちがい探しで遊ぼう！一緒に間違いを探そう！");
     const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
+    setPendingShareReward(true);
+    setShowShareModal(false);
     window.open(lineShareUrl, '_blank');
   };
 
@@ -213,6 +236,40 @@ const ControlBar: React.FC<ControlBarProps> = ({
                 }}
                 onClose={() => setShowTimeAd(false)}
               />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showShareModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 2000
+        }}>
+          <div style={{
+            background: '#fff',
+            borderRadius: '12px',
+            padding: '2em 1.5em 1.5em 1.5em',
+            minWidth: 240,
+            maxWidth: '90vw',
+            textAlign: 'center',
+            boxShadow: '0 4px 16px #b77b4b33',
+            fontSize: '1.1em',
+            color: '#b77b4b',
+            fontWeight: 600
+          }}>
+            このゲームを友だちにシェアすると、<br/>30秒の延長がもらえます！<br/><br/>
+            <div style={{display:'flex', gap:'1.2em', justifyContent:'center', marginTop:'1.5em'}}>
+              <button style={{flex:1, background:'#e57373', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={()=>setShowShareModal(false)}>放棄</button>
+              <button style={{flex:1, background:'#388e3c', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={doShare}>シェア</button>
             </div>
           </div>
         </div>

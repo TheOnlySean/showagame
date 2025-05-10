@@ -16,7 +16,12 @@ import './App.css';
 
 const TOTAL_TIME = 120; // 秒
 
-declare global { interface Window { _globalBGM?: HTMLAudioElement } }
+declare global {
+  interface Window {
+    _globalBGM?: HTMLAudioElement;
+    onShareReward?: () => void;
+  }
+}
 
 function GamePage() {
   const navigate = useNavigate();
@@ -420,6 +425,16 @@ function GamePage() {
     </div>,
     document.body
   ) : null;
+
+  useEffect(() => {
+    // 分享奖励回调
+    window.onShareReward = () => {
+      setTime(t => t + 30);
+    };
+    return () => {
+      window.onShareReward = undefined;
+    };
+  }, []);
 
   return (
     <AdsProvider clientId="pub-9462097609872972" testMode={true}>
