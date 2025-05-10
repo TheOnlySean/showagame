@@ -126,6 +126,7 @@ function GamePage() {
     const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
     setPendingShareReward(true);
     setShowShareModal(false);
+    setShowGameOver(false); // 关闭Game Over弹窗
     window.open(lineShareUrl, '_blank');
   };
 
@@ -413,7 +414,13 @@ function GamePage() {
           時間切れです。<br/>
           再挑戦しますか？
         </p>
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '1.2em', flexWrap: 'wrap' }}>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column',
+          gap: '10px', 
+          justifyContent: 'center', 
+          marginTop: '1.2em'
+        }}>
           <button
             onClick={() => {
               setShowGameOver(false);
@@ -426,8 +433,7 @@ function GamePage() {
               padding: '8px 16px',
               borderRadius: '4px',
               cursor: 'pointer',
-              flex: 1,
-              minWidth: 0,
+              width: '100%',
               animation: undefined,
               fontWeight: 'bold',
               fontSize: '1em'
@@ -442,8 +448,7 @@ function GamePage() {
               padding: '8px 16px',
               borderRadius: '4px',
               cursor: 'pointer',
-              flex: 1,
-              minWidth: 0,
+              width: '100%',
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em'
@@ -461,8 +466,7 @@ function GamePage() {
               padding: '8px 16px',
               borderRadius: '4px',
               cursor: 'pointer',
-              flex: 1,
-              minWidth: 0,
+              width: '100%',
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em'

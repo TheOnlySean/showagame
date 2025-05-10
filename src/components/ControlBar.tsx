@@ -21,6 +21,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
   const [showTimeAd, setShowTimeAd] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [pendingShareReward, setPendingShareReward] = useState(false);
+  const [shareStartTime, setShareStartTime] = useState<number | null>(null);
 
   const handleHint = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -34,20 +35,30 @@ const ControlBar: React.FC<ControlBarProps> = ({
     setShowTimeAd(true);
   };
 
-  // 监听页面可见性变化，判断用户是否从LINE返回
   useEffect(() => {
     const handleVisibility = () => {
-      if (document.visibilityState === 'visible' && pendingShareReward) {
-        setPendingShareReward(false);
-        // 触发加30秒
-        if (typeof window.onShareReward === 'function') {
-          window.onShareReward();
+      if (document.visibilityState === 'visible' && pendingShareReward && shareStartTime) {
+        const isLineBrowser = /Line/.test(navigator.userAgent);
+        if (isLineBrowser) {
+          const currentTime = Date.now();
+          const timeDiff = currentTime - shareStartTime;
+          if (timeDiff >= 3000) {
+            setPendingShareReward(false);
+            setShareStartTime(null);
+            if (typeof window.onShareReward === 'function') {
+              window.onShareReward();
+            }
+          } else {
+            setPendingShareReward(false);
+            setShareStartTime(null);
+            alert('シェアを完了してください。');
+          }
         }
       }
     };
     document.addEventListener('visibilitychange', handleVisibility);
     return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [pendingShareReward]);
+  }, [pendingShareReward, shareStartTime]);
 
   const handleShare = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -59,9 +70,19 @@ const ControlBar: React.FC<ControlBarProps> = ({
     const shareUrl = encodeURIComponent(window.location.href);
     const shareText = encodeURIComponent("昭和まちがい探しで遊ぼう！一緒に間違いを探そう！");
     const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
+    
+    setShareStartTime(Date.now());
     setPendingShareReward(true);
     setShowShareModal(false);
-    window.open(lineShareUrl, '_blank');
+    
+    const isLineBrowser = /Line/.test(navigator.userAgent);
+    if (isLineBrowser) {
+      window.open(lineShareUrl, '_blank');
+    } else {
+      if (typeof window.onShareReward === 'function') {
+        window.onShareReward();
+      }
+    }
   };
 
   return (
@@ -72,12 +93,10 @@ const ControlBar: React.FC<ControlBarProps> = ({
             const spot = spots.find(s => s.id === id);
             return (
               <div className="found-icon" key={id} title={spot?.desc}>
-                {/* SVG佔位icon */}
                 <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#ffe082" stroke="#b77b4b" strokeWidth="2" /></svg>
               </div>
             );
           })}
-          {/* 補足空位 */}
           {Array(spots.length - found.length).fill(0).map((_, i) => (
             <div className="found-icon empty" key={i + 'empty'} />
           ))}
