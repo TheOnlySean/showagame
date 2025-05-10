@@ -557,3 +557,22 @@ html, body, #root {
   padding: 0;
   overflow: hidden;
 }
+
+@keyframes bounce-btn {
+  0%, 100% { transform: scale(1); }
+  20% { transform: scale(1.08, 0.95); }
+  40% { transform: scale(0.96, 1.05); }
+  60% { transform: scale(1.04, 0.98); }
+  80% { transform: scale(0.98, 1.02); }
+}
+
+.gameover-btn-group {
+  display: block;
+  width: 100%;
+}
+.gameover-btn-group button {
+  margin-bottom: 14px;
+}
+.gameover-btn-group button:last-child {
+  margin-bottom: 0;
+}

@@ -416,11 +416,12 @@ function GamePage() {
           時間切れです。<br/>
           再挑戦しますか？
         </p>
-        <div style={{ 
-          marginTop: '1.2em',
-          display: 'block',
-          width: '100%'
-        }}>
+        <div 
+          className="gameover-btn-group"
+          style={{ 
+            marginTop: '1.2em',
+            width: '100%'
+          }}>
           <button
             onClick={() => {
               setShowGameOver(false);
@@ -434,17 +435,10 @@ function GamePage() {
               borderRadius: '6px',
               cursor: 'pointer',
               width: '100%',
-              animation: 'bounce 1.2s infinite',
-              animationName: 'bounce',
-              animationDuration: '1.2s',
-              animationIterationCount: 'infinite',
-              animationTimingFunction: 'ease',
-              animationFillMode: 'both',
-              opacity: 1,
-              filter: 'opacity(1)',
+              animation: 'bounce-btn 1.2s infinite',
+              animationPlayState: 'paused',
               fontWeight: 'bold',
               fontSize: '1em',
-              animationPlayState: 'paused',
             }}
           >再挑戦</button>
           <button
@@ -457,7 +451,7 @@ function GamePage() {
               borderRadius: '6px',
               cursor: 'pointer',
               width: '100%',
-              animation: 'bounce 1.2s infinite',
+              animation: 'bounce-btn 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em',
             }}
@@ -475,7 +469,7 @@ function GamePage() {
               borderRadius: '6px',
               cursor: 'pointer',
               width: '100%',
-              animation: 'bounce 1.2s infinite',
+              animation: 'bounce-btn 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em',
             }}
