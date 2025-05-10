@@ -22,6 +22,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
   const [showShareModal, setShowShareModal] = useState(false);
   const [pendingShareReward, setPendingShareReward] = useState(false);
   const [shareStartTime, setShareStartTime] = useState<number | null>(null);
+  const [shareStep, setShareStep] = useState<'init'|'shared'>('init');
 
   const handleHint = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -63,6 +64,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
   const handleShare = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setShareStep('init');
     setShowShareModal(true);
   };
 
@@ -70,18 +72,23 @@ const ControlBar: React.FC<ControlBarProps> = ({
     const shareUrl = encodeURIComponent(window.location.origin);
     const shareText = encodeURIComponent("昭和まちがい探しで遊ぼう！一緒に間違いを探そう！");
     const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
-    
-    setShareStartTime(Date.now());
-    setPendingShareReward(true);
-    setShowShareModal(false);
-    
     const isLineBrowser = /Line/.test(navigator.userAgent);
     if (isLineBrowser) {
       window.open(lineShareUrl, '_blank');
+      setShareStep('shared');
     } else {
+      setShowShareModal(false);
       if (typeof window.onShareReward === 'function') {
         window.onShareReward();
       }
+    }
+  };
+
+  const handleGetReward = () => {
+    setShowShareModal(false);
+    setShareStep('init');
+    if (typeof window.onShareReward === 'function') {
+      window.onShareReward();
     }
   };
 
@@ -285,11 +292,20 @@ const ControlBar: React.FC<ControlBarProps> = ({
             color: '#b77b4b',
             fontWeight: 600
           }}>
-            このゲームを友だちにシェアすると、<br/>30秒延長されます！<br/><br/>
-            <div style={{display:'flex', gap:'1.2em', justifyContent:'center', marginTop:'1.5em'}}>
-              <button style={{flex:1, background:'#e57373', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={()=>setShowShareModal(false)}>キャンセル</button>
-              <button style={{flex:1, background:'#388e3c', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={doShare}>シェア</button>
-            </div>
+            {shareStep === 'init' ? (
+              <>
+                このゲームを友だちにシェアすると、<br/>30秒延長されます！<br/><br/>
+                <div style={{display:'flex', gap:'1.2em', justifyContent:'center', marginTop:'1.5em'}}>
+                  <button style={{flex:1, background:'#e57373', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={()=>setShowShareModal(false)}>キャンセル</button>
+                  <button style={{flex:1, background:'#388e3c', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={doShare}>シェア</button>
+                </div>
+              </>
+            ) : (
+              <>
+                シェアが完了したら、下のボタンを押してください！<br/><br/>
+                <button style={{width:'100%', background:'#388e3c', color:'#fff', fontWeight:'bold', fontSize:'1.1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.9em 0', marginTop:'1.2em'}} onClick={handleGetReward}>30秒延長を受け取る</button>
+              </>
+            )}
           </div>
         </div>
       )}

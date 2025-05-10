@@ -403,7 +403,7 @@ function GamePage() {
     }}>
       <div style={{
         background: '#fff',
-        padding: '20px',
+        padding: '32px 24px 24px 24px',
         borderRadius: '8px',
         maxWidth: '90%',
         width: '400px',
@@ -417,10 +417,9 @@ function GamePage() {
         <div style={{ 
           display: 'flex', 
           flexDirection: 'column',
-          gap: '10px', 
+          gap: '14px', 
           justifyContent: 'center', 
-          marginTop: '1.2em',
-          alignItems: 'center'
+          marginTop: '1.2em'
         }}>
           <button
             onClick={() => {
@@ -431,10 +430,10 @@ function GamePage() {
               background: '#4caf50',
               color: '#fff',
               border: 'none',
-              padding: '8px 16px',
-              borderRadius: '4px',
+              padding: '12px 0',
+              borderRadius: '6px',
               cursor: 'pointer',
-              width: '80%',
+              width: '100%',
               animation: undefined,
               fontWeight: 'bold',
               fontSize: '1em'
@@ -446,10 +445,10 @@ function GamePage() {
               background: '#1976d2',
               color: '#fff',
               border: 'none',
-              padding: '8px 16px',
-              borderRadius: '4px',
+              padding: '12px 0',
+              borderRadius: '6px',
               cursor: 'pointer',
-              width: '80%',
+              width: '100%',
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em'
@@ -464,10 +463,10 @@ function GamePage() {
               background: '#ff9800',
               color: '#fff',
               border: 'none',
-              padding: '8px 16px',
-              borderRadius: '4px',
+              padding: '12px 0',
+              borderRadius: '6px',
               cursor: 'pointer',
-              width: '80%',
+              width: '100%',
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em'
