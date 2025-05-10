@@ -32,6 +32,15 @@ const ControlBar: React.FC<ControlBarProps> = ({
     setShowTimeAd(true);
   };
 
+  const handleShare = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const shareUrl = encodeURIComponent(window.location.href);
+    const shareText = encodeURIComponent("昭和まちがい探しで遊ぼう！一緒に間違いを探そう！");
+    const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
+    window.open(lineShareUrl, '_blank');
+  };
+
   return (
     <>
       <div className="control-bar">
@@ -67,7 +76,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
             <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#c8e6c9" stroke="#388e3c" strokeWidth="2" /><text x="14" y="19" textAnchor="middle" fontSize="16" fill="#388e3c">＋</text></svg>
             時間追加
           </button>
-          <button className="share-btn" onClick={onShare}>
+          <button className="share-btn" onClick={handleShare}>
             <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#ffe0b2" stroke="#f57c00" strokeWidth="2" /><text x="14" y="19" textAnchor="middle" fontSize="16" fill="#f57c00">シ</text></svg>
             シェア
           </button>
