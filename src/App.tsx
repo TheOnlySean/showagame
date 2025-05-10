@@ -571,6 +571,23 @@ function App() {
     // 不要銷毀BGM，否則切頁會斷
   }, [bgmMuted]);
 
+  // 新增：全局监听用户首次交互，自动播放BGM（兼容LINE等移动端）
+  useEffect(() => {
+    const tryPlayBGM = () => {
+      if (window._globalBGM && !bgmMuted) {
+        window._globalBGM.play();
+      }
+      window.removeEventListener('touchstart', tryPlayBGM);
+      window.removeEventListener('click', tryPlayBGM);
+    };
+    window.addEventListener('touchstart', tryPlayBGM, { once: true });
+    window.addEventListener('click', tryPlayBGM, { once: true });
+    return () => {
+      window.removeEventListener('touchstart', tryPlayBGM);
+      window.removeEventListener('click', tryPlayBGM);
+    };
+  }, [bgmMuted]);
+
   return (
     <Router>
       {/* BGM 靜音/開啟按鈕，全局顯示，只渲染一次 */}
