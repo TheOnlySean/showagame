@@ -435,8 +435,6 @@ function GamePage() {
               borderRadius: '6px',
               cursor: 'pointer',
               width: '100%',
-              animation: 'bounce-btn 1.2s infinite',
-              animationPlayState: 'paused',
               fontWeight: 'bold',
               fontSize: '1em',
             }}
