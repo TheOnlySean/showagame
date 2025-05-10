@@ -403,11 +403,17 @@ function GamePage() {
     }}>
       <div style={{
         background: '#fff',
-        padding: '32px 24px 24px 24px',
+        padding: '32px 16px 24px 16px',
         borderRadius: '8px',
-        maxWidth: '90%',
-        width: '400px',
-        textAlign: 'center'
+        maxWidth: '340px',
+        width: '90vw',
+        textAlign: 'center',
+        margin: '0 auto',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}>
         <h2 style={{ marginBottom: '20px', color: '#d32f2f' }}>ゲームオーバー</h2>
         <p style={{ marginBottom: '20px' }}>
@@ -419,6 +425,8 @@ function GamePage() {
           flexDirection: 'column',
           gap: '14px', 
           justifyContent: 'center', 
+          alignItems: 'center',
+          width: '100%',
           marginTop: '1.2em'
         }}>
           <button
@@ -434,9 +442,19 @@ function GamePage() {
               borderRadius: '6px',
               cursor: 'pointer',
               width: '100%',
-              animation: undefined,
+              maxWidth: '300px',
+              animation: 'bounce 1.2s infinite',
+              animationName: 'bounce',
+              animationDuration: '1.2s',
+              animationIterationCount: 'infinite',
+              animationTimingFunction: 'ease',
+              animationFillMode: 'both',
+              opacity: 1,
+              filter: 'opacity(1)',
               fontWeight: 'bold',
-              fontSize: '1em'
+              fontSize: '1em',
+              animationPlayState: 'paused',
+              margin: '0 auto'
             }}
           >再挑戦</button>
           <button
@@ -449,9 +467,11 @@ function GamePage() {
               borderRadius: '6px',
               cursor: 'pointer',
               width: '100%',
+              maxWidth: '300px',
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
-              fontSize: '1em'
+              fontSize: '1em',
+              margin: '0 auto'
             }}
           >シェアして30秒延長</button>
           <button
@@ -467,9 +487,11 @@ function GamePage() {
               borderRadius: '6px',
               cursor: 'pointer',
               width: '100%',
+              maxWidth: '300px',
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
-              fontSize: '1em'
+              fontSize: '1em',
+              margin: '0 auto'
             }}
           >広告視聴で60秒延長</button>
         </div>
