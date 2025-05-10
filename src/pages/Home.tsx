@@ -25,15 +25,6 @@ export default function Home({ onStartGame }: HomeProps) {
       overflow: 'hidden',
       zIndex: 1
     }}>
-      {/* 左側按鈕 */}
-      <div className="home-left-btns">
-        {leftButtons.map((btn, i) => (
-          <button className="home-side-btn no-border" key={btn.label}>
-            <span className="home-side-emoji" role="img" aria-label={btn.label}>{btn.emoji}</span>
-            <span className="home-side-label-hori">{btn.label}</span>
-          </button>
-        ))}
-      </div>
       {/* 標題和小字 */}
       <div className="home-title">
         <div className="home-title-main">昭和まちがい探し</div>
