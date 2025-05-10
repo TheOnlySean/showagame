@@ -360,7 +360,7 @@ function GamePage() {
               setShowWinModal(false);
               navigate('/levels');
             }}
-          >選択画面に戻る</button>
+          >レベル選択に戻る</button>
           <button
             style={{
               flex:1,
@@ -411,9 +411,9 @@ function GamePage() {
         <h2 style={{ marginBottom: '20px', color: '#d32f2f' }}>ゲームオーバー</h2>
         <p style={{ marginBottom: '20px' }}>
           時間切れです。<br/>
-          もう一度チャレンジしますか？
+          再挑戦しますか？
         </p>
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '1.2em', flexWrap: 'wrap' }}>
           <button
             onClick={() => {
               setShowGameOver(false);
@@ -425,9 +425,14 @@ function GamePage() {
               border: 'none',
               padding: '8px 16px',
               borderRadius: '4px',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              flex: 1,
+              minWidth: 0,
+              animation: undefined,
+              fontWeight: 'bold',
+              fontSize: '1em'
             }}
-          >リスタート</button>
+          >再挑戦</button>
           <button
             onClick={handleShareReward}
             style={{
@@ -437,11 +442,13 @@ function GamePage() {
               padding: '8px 16px',
               borderRadius: '4px',
               cursor: 'pointer',
+              flex: 1,
+              minWidth: 0,
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em'
             }}
-          >シェアで+30秒</button>
+          >シェアして30秒延長</button>
           <button
             onClick={() => {
               setShowGameOver(false);
@@ -454,11 +461,13 @@ function GamePage() {
               padding: '8px 16px',
               borderRadius: '4px',
               cursor: 'pointer',
+              flex: 1,
+              minWidth: 0,
               animation: 'bounce 1.2s infinite',
               fontWeight: 'bold',
               fontSize: '1em'
             }}
-          >広告で+60秒</button>
+          >広告視聴で60秒延長</button>
         </div>
       </div>
       {showShareModal && (

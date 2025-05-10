@@ -250,7 +250,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
             maxWidth: '80%',
             textAlign: 'center'
           }}>
-            <h3 style={{ marginBottom: '15px', color: '#d32f2f' }}>注意</h3>
+            <h3 style={{ marginBottom: '15px', color: '#d32f2f' }}>ご注意</h3>
             <p style={{ marginBottom: '20px' }}>
               広告を途中で閉じると、ボーナス時間を獲得できません。<br/>
               本当に閉じますか？
@@ -267,7 +267,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
                   cursor: 'pointer'
                 }}
               >
-                キャンセル
+                いいえ
               </button>
               <button
                 onClick={handleConfirmClose}
@@ -280,7 +280,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
                   cursor: 'pointer'
                 }}
               >
-                閉じる
+                はい
               </button>
             </div>
           </div>

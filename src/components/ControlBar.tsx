@@ -97,7 +97,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
             onTouchStart={handleAddTime}
           >
             <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#c8e6c9" stroke="#388e3c" strokeWidth="2" /><text x="14" y="19" textAnchor="middle" fontSize="16" fill="#388e3c">＋</text></svg>
-            時間追加
+            時間延長
           </button>
           <button className="share-btn" onClick={handleShare}>
             <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#ffe0b2" stroke="#f57c00" strokeWidth="2" /><text x="14" y="19" textAnchor="middle" fontSize="16" fill="#f57c00">シ</text></svg>
@@ -212,9 +212,9 @@ const ControlBar: React.FC<ControlBarProps> = ({
               flexShrink: 0
             }}>
               広告動画を最後まで視聴すると、<br/>
-              ゲーム時間が60秒追加されます。<br/>
+              ゲーム時間が60秒延長されます。<br/>
               <span style={{ color: '#388e3c', fontWeight: 'bold' }}>
-                ※途中で閉じると時間は追加されません
+                ※途中で閉じると延長されません
               </span>
             </p>
             <div style={{ 
@@ -266,9 +266,9 @@ const ControlBar: React.FC<ControlBarProps> = ({
             color: '#b77b4b',
             fontWeight: 600
           }}>
-            このゲームを友だちにシェアすると、<br/>30秒の延長がもらえます！<br/><br/>
+            このゲームを友だちにシェアすると、<br/>30秒延長されます！<br/><br/>
             <div style={{display:'flex', gap:'1.2em', justifyContent:'center', marginTop:'1.5em'}}>
-              <button style={{flex:1, background:'#e57373', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={()=>setShowShareModal(false)}>放棄</button>
+              <button style={{flex:1, background:'#e57373', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={()=>setShowShareModal(false)}>キャンセル</button>
               <button style={{flex:1, background:'#388e3c', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={doShare}>シェア</button>
             </div>
           </div>

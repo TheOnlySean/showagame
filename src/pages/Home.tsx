@@ -31,7 +31,7 @@ export default function Home({ onStartGame }: HomeProps) {
         <div className="home-title-small">写真復活スタジオ制作</div>
       </div>
       {/* 開始遊戲大按鈕移到下方中央 */}
-      <button className="home-start-btn" onClick={onStartGame}>ゲーム開始</button>
+      <button className="home-start-btn" onClick={onStartGame}>ゲームスタート</button>
     </div>
   );
 } 
