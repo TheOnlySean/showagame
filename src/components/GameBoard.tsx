@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import { spots } from "../data/spots";
 import type { Spot } from "../data/spots";
 
 interface Props {
