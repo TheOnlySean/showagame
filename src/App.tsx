@@ -98,7 +98,13 @@ function GamePage() {
     setGameOver(false); // 确保游戏不会处于结束状态
     setTime(t => t + 60);
   };
-  const handleShare = () => { playClickSound(); alert("シェア"); };
+  const handleShare = () => { 
+    playClickSound(); 
+    const shareUrl = encodeURIComponent(window.location.href);
+    const shareText = encodeURIComponent(`昭和の間違い探しゲーム：${level.title}で遊んでいます！あなたも挑戦してみませんか？`);
+    const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
+    window.open(lineShareUrl, '_blank');
+  };
 
   const handleSpotFound = (id: number) => {
     if (!found.includes(id)) {
@@ -141,7 +147,7 @@ function GamePage() {
   };
   const doShare = () => {
     const shareUrl = encodeURIComponent(window.location.href);
-    const shareText = encodeURIComponent("昭和まちがい探しで遊ぼう！一緒に間違いを探そう！");
+    const shareText = encodeURIComponent(`昭和の間違い探しゲーム：${level.title}で遊んでいます！あなたも挑戦してみませんか？`);
     const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
     setPendingShareReward(true);
     setShowShareModal(false);

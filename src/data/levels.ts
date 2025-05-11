@@ -37,7 +37,7 @@ export const levels: LevelData[] = [
   {
     id: 1,
     image: "/images/level1.jpg",
-    title: "昭和の街道",
+    title: "昭和の町並み",
     spots: level1Spots
   },
   {

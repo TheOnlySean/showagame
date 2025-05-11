@@ -62,7 +62,7 @@ export default function LevelSelect() {
       <div className="level-select-footer">
         <button className="level-gift-btn" onClick={() => {
           const shareUrl = encodeURIComponent(window.location.href);
-          const shareText = encodeURIComponent("昭和まちがい探しで遊ぼう！一緒に間違いを探そう！");
+          const shareText = encodeURIComponent("昭和の間違い探しゲーム：懐かしい時代の写真で遊んでみませんか？");
           const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
           window.open(lineShareUrl, '_blank');
         }}>シェア</button>
