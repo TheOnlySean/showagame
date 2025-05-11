@@ -101,7 +101,7 @@ function GamePage() {
   const handleShare = () => { 
     playClickSound(); 
     const shareUrl = encodeURIComponent(window.location.href);
-    const shareText = encodeURIComponent(`昭和の間違い探しゲーム：${level.title}で遊んでいます！あなたも挑戦してみませんか？`);
+    const shareText = encodeURIComponent(`昭和の間違い探しゲーム：${level.title}で懐かしい思い出を探しています！あなたも挑戦してみませんか？`);
     const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
     window.open(lineShareUrl, '_blank');
   };
@@ -147,7 +147,7 @@ function GamePage() {
   };
   const doShare = () => {
     const shareUrl = encodeURIComponent(window.location.href);
-    const shareText = encodeURIComponent(`昭和の間違い探しゲーム：${level.title}で遊んでいます！あなたも挑戦してみませんか？`);
+    const shareText = encodeURIComponent(`昭和の間違い探しゲーム：${level.title}で懐かしい思い出を探しています！タイムアタックに挑戦してみませんか？`);
     const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
     setPendingShareReward(true);
     setShowShareModal(false);

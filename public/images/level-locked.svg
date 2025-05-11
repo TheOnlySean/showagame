@@ -1,5 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
-  <rect width="600" height="600" fill="#f5ecd7" />
-  <text x="300" y="300" font-family="Arial" font-size="240" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#b77b4b">?</text>
-  <text x="300" y="400" font-family="Arial" font-size="36" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#b77b4b">開発中</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="65" height="65" viewBox="0 0 65 65" xmlns="http://www.w3.org/2000/svg">
+  <rect width="65" height="65" fill="#f5f5f5"/>
+  <text x="32.5" y="42" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="#a0522d" text-anchor="middle">?</text>
+  <circle cx="32.5" cy="32.5" r="24" stroke="#a0522d" stroke-width="2" fill="none"/>
 </svg> 
