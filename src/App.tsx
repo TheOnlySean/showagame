@@ -39,6 +39,19 @@ function GamePage() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [pendingShareReward, setPendingShareReward] = useState(false);
 
+  // 监听 levelId 变化，重置游戏状态
+  useEffect(() => {
+    setFound([]); // 清空已找到的热点
+    setTime(TOTAL_TIME); // 重置时间
+    setGameOver(false);
+    setShowGameOver(false);
+    setShowPauseModal(false);
+    setPaused(false);
+    setShowWinModal(false);
+    setShowTimeAd(false);
+    setShowShareModal(false);
+  }, [levelId]);
+
   // 倒計時副作用
   useEffect(() => {
     if (gameOver || paused || showWinModal) return;
@@ -385,7 +398,9 @@ function GamePage() {
               playClickSound();
               setShowWinModal(false);
               if (level.id === 1) {
-                navigate('/game/2');
+                setFound([]); // 清空已找到的热点
+                setTime(TOTAL_TIME); // 重置时间
+                navigate('/game/2'); // 导航到第二关
               } else {
                 alert('Demo体験はここまでです。\nゲームは開発中です。\nご期待ください！');
               }
