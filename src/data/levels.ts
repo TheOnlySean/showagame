@@ -37,13 +37,49 @@ export const levels: LevelData[] = [
   {
     id: 1,
     image: "/images/level1.jpg",
-    title: "昭和時代にそぐわないものを探してください",
+    title: "昭和の街道",
     spots: level1Spots
   },
   {
     id: 2,
     image: "/images/level2.jpg",
-    title: "昭和時代にそぐわないものを探してください",
+    title: "昭和のバス",
+    spots: level2Spots
+  },
+  {
+    id: 3,
+    image: "/images/level1.jpg",
+    title: "昭和の商店街",
+    spots: level1Spots
+  },
+  {
+    id: 4,
+    image: "/images/level2.jpg",
+    title: "昭和の学校",
+    spots: level2Spots
+  },
+  {
+    id: 5,
+    image: "/images/level1.jpg",
+    title: "昭和の駅",
+    spots: level1Spots
+  },
+  {
+    id: 6,
+    image: "/images/level2.jpg",
+    title: "昭和の居酒屋",
+    spots: level2Spots
+  },
+  {
+    id: 7,
+    image: "/images/level1.jpg",
+    title: "昭和の公園",
+    spots: level1Spots
+  },
+  {
+    id: 8,
+    image: "/images/level2.jpg",
+    title: "昭和の映画館",
     spots: level2Spots
   }
 ]; 

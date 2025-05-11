@@ -5,12 +5,16 @@ import { levels } from "../data/levels";
 
 export default function LevelSelect() {
   const navigate = useNavigate();
-  const [unlocked, setUnlocked] = useState([true, false]);
+  const [unlocked, setUnlocked] = useState(Array(8).fill(false));
 
   useEffect(() => {
-    // 检查localStorage，第一关通关后解锁第二关
+    // 第一关默认解锁，第二关完成第一关后解锁
     const cleared1 = localStorage.getItem('level1_cleared') === '1';
-    setUnlocked([true, cleared1]);
+    const newUnlocked = Array(8).fill(false);
+    newUnlocked[0] = true; // 第一关始终解锁
+    newUnlocked[1] = cleared1; // 第二关条件解锁
+    // 后面的关卡都锁定
+    setUnlocked(newUnlocked);
   }, []);
 
   return (
@@ -24,7 +28,7 @@ export default function LevelSelect() {
       left: 0,
       paddingBottom: '0.5em',
       overflowX: 'hidden',
-      overflowY: 'hidden',
+      overflowY: 'auto', // 修改为可滚动
       margin: 0,
       zIndex: 0
     }}>
@@ -35,12 +39,22 @@ export default function LevelSelect() {
         <span style={{width: 32}}></span>
       </div>
       {/* 關卡卡片區 */}
-      <div className="level-card-list">
-        {levels.slice(0,2).map((lv, i) => (
+      <div className="level-card-list" style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)', // 两列布局
+        gap: '1rem',
+        padding: '1rem',
+        marginBottom: '4rem' // 底部留白，避免被底栏遮挡
+      }}>
+        {levels.map((lv, i) => (
           <div key={i} onClick={() => {
-            if (i === 0 || unlocked[i]) navigate(`/game/${lv.id}`);
+            if (i < 2 && (i === 0 || unlocked[i])) {
+              navigate(`/game/${lv.id}`);
+            } else if (i >= 2) {
+              alert('このレベルは開発中です。\nお楽しみに！');
+            }
           }} style={{cursor: (i === 0 || unlocked[i]) ? 'pointer' : 'not-allowed'}}>
-            <LevelCard title={lv.title} img={lv.image} locked={i !== 0 && !unlocked[i]} index={i} />
+            <LevelCard title={lv.title} img={lv.image} locked={!unlocked[i]} index={i} />
           </div>
         ))}
       </div>
