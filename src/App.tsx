@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, useNavigate, useParams } from "react-router-dom";
 import ReactDOM from "react-dom";
 import TopBar from "./components/TopBar";
 import BackButton from "./components/BackButton";
