@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from "react-router-dom";
 import ReactDOM from "react-dom";
 import TopBar from "./components/TopBar";
 import BackButton from "./components/BackButton";
 import PauseButton from "./components/PauseButton";
 import GameBoard from "./components/GameBoard";
 import ControlBar from "./components/ControlBar";
-import { spots } from "./data/spots";
+import { levels } from "./data/levels";
 import Home from "./pages/Home";
 import LevelSelect from "./pages/LevelSelect";
 import { AdsProvider } from './contexts/AdsContext';
@@ -25,6 +25,8 @@ declare global {
 
 function GamePage() {
   const navigate = useNavigate();
+  const { levelId } = useParams();
+  const level = levels.find(l => l.id === Number(levelId)) || levels[0];
   const [found, setFound] = useState<number[]>([]);
   const [time, setTime] = useState(TOTAL_TIME);
   const [gameOver, setGameOver] = useState(false);
@@ -70,7 +72,7 @@ function GamePage() {
   const handlePause = () => { playClickSound(); setShowPauseModal(true); setPaused(true); };
   const handleHint = () => {
     // 找到还未发现的点
-    const unfoundSpots = spots.filter(spot => !found.includes(spot.id));
+    const unfoundSpots = level.spots.filter(spot => !found.includes(spot.id));
     if (unfoundSpots.length > 0) {
       // 随机选择一个未发现的点
       const randomSpot = unfoundSpots[Math.floor(Math.random() * unfoundSpots.length)];
@@ -94,10 +96,10 @@ function GamePage() {
 
   // 當全部熱區找到時彈出勝利彈窗
   useEffect(() => {
-    if (found.length === spots.length && !showWinModal) {
+    if (found.length === level.spots.length && !showWinModal) {
       setShowWinModal(true);
     }
-  }, [found, showWinModal]);
+  }, [found, showWinModal, level.spots.length]);
 
   const resetGame = () => {
     setGameOver(false);
@@ -532,17 +534,17 @@ function GamePage() {
         overflow: 'hidden',
         touchAction: 'none'
       }}>
-        <TopBar time={time} total={spots.length} found={found.length} />
+        <TopBar time={time} total={level.spots.length} found={found.length} />
         <BackButton onClick={handleBack} />
         <PauseButton onClick={handlePause} />
         <div className="main-content">
-          <GameBoard found={found} onSpotFound={handleSpotFound} />
+          <GameBoard found={found} onSpotFound={handleSpotFound} spots={level.spots} image={level.image} />
           {pauseModal}
           {gameOverModal}
           {timeAdModal}
           {winModal}
         </div>
-        <ControlBar found={found} spots={spots} onHint={handleHint} onAddTime={handleAddTime} onShare={handleShare} />
+        <ControlBar found={found} spots={level.spots} onHint={handleHint} onAddTime={handleAddTime} onShare={handleShare} />
       </div>
     </AdsProvider>
   );

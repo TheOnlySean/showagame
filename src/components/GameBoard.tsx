@@ -1,14 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 import { spots } from "../data/spots";
+import type { Spot } from "../data/spots";
 
 interface Props {
   found: number[];
   onSpotFound: (id: number) => void;
+  spots: Spot[];
+  image: string;
 }
 
 const IMAGE_SIZE = 1024; // 图片实际尺寸
 
-export default function GameBoard({ found, onSpotFound }: Props) {
+export default function GameBoard({ found, onSpotFound, spots, image }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [wrong, setWrong] = useState<{x: number, y: number} | null>(null);
@@ -112,7 +115,7 @@ export default function GameBoard({ found, onSpotFound }: Props) {
         bottom: 0,
         width: '100vw',
         height: '100vh',
-        backgroundImage: 'url(/images/bg.png)',
+        backgroundImage: `url(${image})`,
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
