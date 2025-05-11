@@ -11,6 +11,7 @@ interface Props {
 const IMAGE_SIZE = 1024; // 图片实际尺寸
 
 export default function GameBoard({ found, onSpotFound, spots, image }: Props) {
+  console.log('GameBoard image', image);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [wrong, setWrong] = useState<{x: number, y: number} | null>(null);
