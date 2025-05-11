@@ -36,7 +36,7 @@ const level2Spots: Spot[] = [
 export const levels: LevelData[] = [
   {
     id: 1,
-    image: "/images/level1.jpg",
+    image: "/images/level1.png",
     title: "昭和時代にそぐわないものを探してください",
     spots: level1Spots
   },
