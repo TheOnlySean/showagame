@@ -31,13 +31,43 @@ export default function Home({ onStartGame }: HomeProps) {
         <div className="home-title-small">写真復活スタジオ制作</div>
       </div>
       
+      {/* 写真復活官网按钮 */}
+      <button 
+        onClick={() => window.open('https://angelsphoto.ai', '_blank')}
+        style={{
+          position: 'absolute',
+          left: '50%',
+          bottom: '42vh',
+          transform: 'translateX(-50%)',
+          background: 'linear-gradient(to bottom, #4a90e2, #3671b5)',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '0.8em',
+          padding: '0.6em 1.2em',
+          fontSize: '1.2em',
+          fontWeight: 'bold',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.4em',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          cursor: 'pointer',
+          zIndex: 2
+        }}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+        </svg>
+        <span>写真復活公式サイト</span>
+      </button>
+      
       {/* LINE公式账号按钮 */}
       <button 
         onClick={() => window.open('https://line.me/R/ti/p/@824unncx', '_blank')}
         style={{
           position: 'absolute',
           left: '50%',
-          bottom: '28vh',
+          bottom: '34vh',
           transform: 'translateX(-50%)',
           background: 'linear-gradient(to bottom, #06c755, #00b347)',
           color: '#fff',
