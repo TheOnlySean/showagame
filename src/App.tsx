@@ -621,7 +621,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeWithNav />} />
         <Route path="/levels" element={<LevelSelect />} />
-        <Route path="/game" element={<GamePage />} />
+        <Route path="/game/:levelId" element={<GamePage />} />
       </Routes>
     </Router>
   );
