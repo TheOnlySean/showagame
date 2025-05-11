@@ -26,9 +26,7 @@ declare global {
 function GamePage() {
   const navigate = useNavigate();
   const { levelId } = useParams();
-  console.log('levelId', levelId);
   const level = levels.find(l => l.id === Number(levelId)) || levels[0];
-  console.log('level', level);
   const [found, setFound] = useState<number[]>([]);
   const [time, setTime] = useState(TOTAL_TIME);
   const [gameOver, setGameOver] = useState(false);
@@ -534,35 +532,29 @@ function GamePage() {
   }, []);
 
   return (
-    <div style={{color: 'red', fontSize: 24, zIndex: 99999, position: 'relative'}}>
-      <div>levelId: {String(levelId)}</div>
-      <div>level: {JSON.stringify(level)}</div>
-      <div>spots: {level && level.spots ? level.spots.length : 'no spots'}</div>
-      <div>hello, 这里是调试信息</div>
-      <AdsProvider clientId="pub-9462097609872972" testMode={true}>
-        <div className="app" style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          overflow: 'hidden',
-          touchAction: 'none'
-        }}>
-          <TopBar time={time} total={level.spots.length} found={found.length} />
-          <BackButton onClick={handleBack} />
-          <PauseButton onClick={handlePause} />
-          <div className="main-content">
-            <GameBoard found={found} onSpotFound={handleSpotFound} spots={level.spots} image={level.image} />
-            {pauseModal}
-            {gameOverModal}
-            {timeAdModal}
-            {winModal}
-          </div>
-          <ControlBar found={found} spots={level.spots} onHint={handleHint} onAddTime={handleAddTime} onShare={handleShare} />
+    <AdsProvider clientId="pub-9462097609872972" testMode={true}>
+      <div className="app" style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        overflow: 'hidden',
+        touchAction: 'none'
+      }}>
+        <TopBar time={time} total={level.spots.length} found={found.length} />
+        <BackButton onClick={handleBack} />
+        <PauseButton onClick={handlePause} />
+        <div className="main-content">
+          <GameBoard found={found} onSpotFound={handleSpotFound} spots={level.spots} image={level.image} />
+          {pauseModal}
+          {gameOverModal}
+          {timeAdModal}
+          {winModal}
         </div>
-      </AdsProvider>
-    </div>
+        <ControlBar found={found} spots={level.spots} onHint={handleHint} onAddTime={handleAddTime} onShare={handleShare} />
+      </div>
+    </AdsProvider>
   );
 }
 
