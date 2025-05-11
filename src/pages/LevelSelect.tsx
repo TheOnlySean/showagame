@@ -134,7 +134,7 @@ export default function LevelSelect() {
           window.open(lineShareUrl, '_blank');
         }}>シェア</button>
         <button className="level-home-btn" style={{
-          background: 'linear-gradient(to bottom, #5ec1b6, #4db6ac)',
+          background: 'linear-gradient(to bottom, #06c755, #00b347)',
           color: '#fff',
           border: 'none',
           borderRadius: '12px',
@@ -149,7 +149,14 @@ export default function LevelSelect() {
           gap: '0.3em',
           transition: 'transform 0.1s ease',
           cursor: 'pointer'
-        }}>📲<span>ホーム追加</span></button>
+        }} onClick={() => {
+          window.open('https://line.me/R/ti/p/@824unncx', '_blank');
+        }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff">
+            <path d="M24 10.3c0-5.4-5.4-9.8-12-9.8s-12 4.4-12 9.8c0 4.8 4.3 8.9 10.1 9.6.4.1.9.3 1.1.6.2.3.1.8.1.9l-.2 1.1c-.1.4-.3 1.5 1.3.8s8.6-5.1 11.8-8.8c2.2-2.3 1.8-4.6 1.8-4.6v.2z"/>
+          </svg>
+          <span>写真復活LINE</span>
+        </button>
       </div>
     </div>
   );
