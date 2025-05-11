@@ -26,7 +26,9 @@ declare global {
 function GamePage() {
   const navigate = useNavigate();
   const { levelId } = useParams();
+  console.log('levelId', levelId);
   const level = levels.find(l => l.id === Number(levelId)) || levels[0];
+  console.log('level', level);
   const [found, setFound] = useState<number[]>([]);
   const [time, setTime] = useState(TOTAL_TIME);
   const [gameOver, setGameOver] = useState(false);
