@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LevelCard from "../components/LevelCard";
-
-const levels = [
-  { title: "懐かしい街並み", img: "/images/bg.png", locked: false },
-  { title: "懐かしい学校", img: "https://placehold.co/200x200?text=No+Image", locked: true },
-  { title: "懐かしい神社", img: "https://placehold.co/200x200?text=No+Image", locked: true },
-  { title: "懐かしい宴会", img: "https://placehold.co/200x200?text=No+Image", locked: true },
-  { title: "懐かしい朝ごはん", img: "https://placehold.co/200x200?text=No+Image", locked: true },
-  { title: "懐かしい駅", img: "https://placehold.co/200x200?text=No+Image", locked: true },
-];
+import { levels } from "../data/levels";
 
 export default function LevelSelect() {
   const navigate = useNavigate();
+  const [unlocked, setUnlocked] = useState([true, false]);
+
+  useEffect(() => {
+    // 检查localStorage，第一关通关后解锁第二关
+    const cleared1 = localStorage.getItem('level1_cleared') === '1';
+    setUnlocked([true, cleared1]);
+  }, []);
+
   return (
     <div className="level-select-page" style={{
       minHeight: '100vh',
@@ -36,9 +36,11 @@ export default function LevelSelect() {
       </div>
       {/* 關卡卡片區 */}
       <div className="level-card-list">
-        {levels.map((lv, i) => (
-          <div key={i} onClick={() => { if(i === 0) navigate('/game'); }} style={{cursor: i === 0 ? 'pointer' : 'default'}}>
-            <LevelCard {...lv} index={i} />
+        {levels.slice(0,2).map((lv, i) => (
+          <div key={i} onClick={() => {
+            if (i === 0 || unlocked[i]) navigate(`/game/${lv.id}`);
+          }} style={{cursor: (i === 0 || unlocked[i]) ? 'pointer' : 'not-allowed'}}>
+            <LevelCard title={lv.title} img={lv.image} locked={i !== 0 && !unlocked[i]} index={i} />
           </div>
         ))}
       </div>

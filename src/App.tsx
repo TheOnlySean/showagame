@@ -98,6 +98,10 @@ function GamePage() {
   useEffect(() => {
     if (found.length === level.spots.length && !showWinModal) {
       setShowWinModal(true);
+      // 第一关通关时写入localStorage
+      if (level.id === 1) {
+        localStorage.setItem('level1_cleared', '1');
+      }
     }
   }, [found, showWinModal, level.spots.length]);
 
@@ -379,8 +383,12 @@ function GamePage() {
             }}
             onClick={() => {
               playClickSound();
-              setShowDemoEnd(true);
-              setTimeout(() => setShowDemoEnd(false), 2000);
+              setShowWinModal(false);
+              if (level.id === 1) {
+                navigate('/game/2');
+              } else {
+                alert('Demo体験はここまでです。\nゲームは開発中です。\nご期待ください！');
+              }
             }}
           >次のステージへ</button>
         </div>
