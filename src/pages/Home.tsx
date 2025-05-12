@@ -26,9 +26,31 @@ export default function Home({ onStartGame }: HomeProps) {
       zIndex: 1
     }}>
       {/* 標題和小字 */}
-      <div className="home-title">
-        <div className="home-title-main">昭和まちがい探し</div>
-        <div className="home-title-small">写真復活スタジオ制作</div>
+      <div className="home-title" style={{
+        position: 'absolute',
+        top: '8vh',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        textAlign: 'center',
+        width: '80%',
+        zIndex: 2
+      }}>
+        <div className="home-title-main" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          color: '#b71c1c',
+          textShadow: '2px 2px 6px #fff, 0 4px 16px rgba(0,0,0,0.10)',
+          fontWeight: 'bold'
+        }}>
+          <span style={{ fontSize: '2.8rem', marginBottom: '0.1em' }}>昭和</span>
+          <span style={{ fontSize: '2.2rem' }}>まちがい探し</span>
+        </div>
+        <div className="home-title-small" style={{
+          fontSize: '1rem',
+          marginTop: '0.8em',
+          color: '#b77b4b'
+        }}>写真復活スタジオ制作</div>
       </div>
       
       {/* 写真復活官网按钮 */}
@@ -58,7 +80,10 @@ export default function Home({ onStartGame }: HomeProps) {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
         </svg>
-        <span>写真復活公式サイト</span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: '1.2' }}>
+          <span>写真復活</span>
+          <span>公式サイト</span>
+        </div>
       </button>
       
       {/* LINE公式账号按钮 */}

@@ -128,8 +128,8 @@ export default function LevelSelect() {
           transition: 'transform 0.1s ease',
           cursor: 'pointer'
         }} onClick={() => {
-          const shareUrl = encodeURIComponent(window.location.href);
-          const shareText = encodeURIComponent("昭和の間違い探しゲーム：懐かしい写真で面白い発見をしてみませんか？");
+          const shareUrl = encodeURIComponent(window.location.origin);
+          const shareText = encodeURIComponent("昭和の間違い探しゲーム：懐かしい時代の写真で遊んでみませんか？");
           const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
           window.open(lineShareUrl, '_blank');
         }}>シェア</button>
