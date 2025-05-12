@@ -62,13 +62,13 @@ export const levels: LevelData[] = [
   {
     id: 3,
     image: "/images/level3.jpg",
-    title: "昭和の商店街",
+    title: "昭和の小学校",
     spots: level3Spots
   },
   {
     id: 4,
     image: "/images/level-locked.svg",
-    title: "昭和の学校",
+    title: "昭和の商店街",
     spots: level2Spots
   },
   {
