@@ -121,8 +121,12 @@ function GamePage() {
       if (level.id === 1) {
         localStorage.setItem('level1_cleared', '1');
       }
+      // 第二关通关时写入localStorage
+      if (level.id === 2) {
+        localStorage.setItem('level2_cleared', '1');
+      }
     }
-  }, [found, showWinModal, level.spots.length]);
+  }, [found, showWinModal, level.spots.length, level.id]);
 
   const resetGame = () => {
     setGameOver(false);
@@ -407,8 +411,12 @@ function GamePage() {
                 setFound([]); // 清空已找到的热点
                 setTime(TOTAL_TIME); // 重置时间
                 navigate('/game/2'); // 导航到第二关
+              } else if (level.id === 2) {
+                setFound([]); // 清空已找到的热点
+                setTime(TOTAL_TIME); // 重置时间
+                navigate('/game/3'); // 导航到第三关
               } else {
-                alert('Demo体験はここまでです。\nゲームは開発中です。\nご期待ください！');
+                setShowDemoEnd(true); // 显示demo结束提示
               }
             }}
           >次のステージへ</button>

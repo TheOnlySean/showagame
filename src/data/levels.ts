@@ -33,6 +33,19 @@ const level2Spots: Spot[] = [
   { id: 10, ...calculateHotspotPosition(946, 187), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "右上窓際の不自然なもの" },
 ];
 
+const level3Spots: Spot[] = [
+  { id: 1, ...calculateHotspotPosition(224, 744), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "商店街の看板の不自然な部分" },
+  { id: 2, ...calculateHotspotPosition(373, 142), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "店舗の屋根の不自然な部分" },
+  { id: 3, ...calculateHotspotPosition(379, 339), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "店舗の窓の不自然な部分" },
+  { id: 4, ...calculateHotspotPosition(597, 611), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "道路の不自然な部分" },
+  { id: 5, ...calculateHotspotPosition(603, 442), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "歩行者の不自然な部分" },
+  { id: 6, ...calculateHotspotPosition(737, 552), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "店舗の看板の不自然な部分" },
+  { id: 7, ...calculateHotspotPosition(974, 648), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "店舗の入口の不自然な部分" },
+  { id: 8, ...calculateHotspotPosition(833, 477), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "店舗の商品の不自然な部分" },
+  { id: 9, ...calculateHotspotPosition(931, 241), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "店舗の屋根の不自然な部分" },
+  { id: 10, ...calculateHotspotPosition(946, 395), widthPct: HOTSPOT_SIZE, heightPct: HOTSPOT_SIZE, desc: "店舗の看板の不自然な部分" },
+];
+
 export const levels: LevelData[] = [
   {
     id: 1,
@@ -48,9 +61,9 @@ export const levels: LevelData[] = [
   },
   {
     id: 3,
-    image: "/images/level-locked.svg",
+    image: "/images/level3.jpg",
     title: "昭和の商店街",
-    spots: level1Spots
+    spots: level3Spots
   },
   {
     id: 4,
