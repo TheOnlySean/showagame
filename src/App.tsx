@@ -140,6 +140,7 @@ function GamePage() {
       if (document.visibilityState === 'visible' && pendingShareReward) {
         setPendingShareReward(false);
         setTime(t => t + 30);
+        setGameOver(false); // 确保游戏不会处于结束状态
       }
     };
     document.addEventListener('visibilitychange', handleVisibility);
