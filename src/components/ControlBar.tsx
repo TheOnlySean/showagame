@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import type { Spot } from "../data/spots";
-import PlaceholderAd from "./PlaceholderAd";
+import IMobileAd from "./IMobileAd";
 
 interface ControlBarProps {
   found: number[];
@@ -186,9 +186,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
               overflow: 'hidden',
               touchAction: 'none'
             }}>
-              <PlaceholderAd 
-                width="100%" 
-                height="100%" 
+              <IMobileAd 
                 onComplete={() => {
                   setShowHintAd(false);
                   onHint();
@@ -253,9 +251,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
               overflow: 'hidden',
               touchAction: 'none'
             }}>
-              <PlaceholderAd 
-                width="100%" 
-                height="100%" 
+              <IMobileAd 
                 onComplete={() => {
                   setShowTimeAd(false);
                   onAddTime();
