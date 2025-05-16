@@ -5,13 +5,15 @@ interface AdProps {
   height?: string;
   onComplete?: () => void;
   onClose?: () => void;
+  type?: 'hint' | 'time';
 }
 
 const Ad: React.FC<AdProps> = ({ 
   width = '100%', 
   height = '250px',
   onComplete,
-  onClose
+  onClose,
+  type = 'hint'
 }) => {
   const [progress, setProgress] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -56,6 +58,73 @@ const Ad: React.FC<AdProps> = ({
 
   const handleCancelClose = () => {
     setShowConfirmModal(false);
+  };
+
+  const getAdContent = () => {
+    if (type === 'hint') {
+      return (
+        <div style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
+          textAlign: 'center'
+        }}>
+          <h2 style={{ color: '#0288d1', marginBottom: '20px' }}>ヒント広告</h2>
+          <p style={{ color: '#666', marginBottom: '20px' }}>
+            広告を最後まで視聴すると、<br/>
+            まだ見つけていないアイテムを<br/>
+            自動的に1つ見つけてくれます。
+          </p>
+          <div style={{
+            width: '100%',
+            height: '100px',
+            backgroundColor: '#e3f2fd',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '20px'
+          }}>
+            <span style={{ color: '#0288d1' }}>ヒント広告プレースホルダー</span>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
+          textAlign: 'center'
+        }}>
+          <h2 style={{ color: '#388e3c', marginBottom: '20px' }}>時間延長広告</h2>
+          <p style={{ color: '#666', marginBottom: '20px' }}>
+            広告を最後まで視聴すると、<br/>
+            ゲーム時間が30秒延長されます。
+          </p>
+          <div style={{
+            width: '100%',
+            height: '100px',
+            backgroundColor: '#e8f5e9',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '20px'
+          }}>
+            <span style={{ color: '#388e3c' }}>時間延長広告プレースホルダー</span>
+          </div>
+        </div>
+      );
+    }
   };
 
   return (
@@ -117,34 +186,7 @@ const Ad: React.FC<AdProps> = ({
               </style>
             </div>
           ) : (
-            <div style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '20px',
-              textAlign: 'center'
-            }}>
-              <h2 style={{ color: '#d35400', marginBottom: '20px' }}>広告</h2>
-              <p style={{ color: '#666', marginBottom: '20px' }}>
-                この広告はデモ用です。<br/>
-                実際のアプリでは、ここに広告が表示されます。
-              </p>
-              <div style={{
-                width: '100%',
-                height: '100px',
-                backgroundColor: '#ddd',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '20px'
-              }}>
-                <span style={{ color: '#666' }}>広告プレースホルダー</span>
-              </div>
-            </div>
+            getAdContent()
           )}
           <div style={{
             position: 'absolute',
@@ -157,7 +199,7 @@ const Ad: React.FC<AdProps> = ({
             <div style={{
               width: `${progress}%`,
               height: '100%',
-              backgroundColor: '#d35400',
+              backgroundColor: type === 'hint' ? '#0288d1' : '#388e3c',
               transition: 'width 0.1s linear'
             }} />
           </div>

@@ -189,6 +189,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
               <Ad 
                 width="100%" 
                 height="100%" 
+                type="hint"
                 onComplete={() => {
                   setShowHintAd(false);
                   onHint();
@@ -256,6 +257,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
               <Ad 
                 width="100%" 
                 height="100%" 
+                type="time"
                 onComplete={() => {
                   setShowTimeAd(false);
                   onAddTime();
