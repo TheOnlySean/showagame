@@ -9,7 +9,6 @@ import ControlBar from "./components/ControlBar";
 import { levels } from "./data/levels";
 import Home from "./pages/Home";
 import LevelSelect from "./pages/LevelSelect";
-import { AdsProvider } from './contexts/AdsContext';
 import IMobileAd from './components/IMobileAd';
 import './App.css';
 // import type { Spot } from "./data/spots";
@@ -560,29 +559,27 @@ function GamePage() {
   }, []);
 
   return (
-    <AdsProvider clientId="pub-9462097609872972" testMode={true}>
-      <div className="app" style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        overflow: 'hidden',
-        touchAction: 'none'
-      }}>
-        <TopBar time={time} total={level.spots.length} found={found.length} />
-        <BackButton onClick={handleBack} />
-        <PauseButton onClick={handlePause} />
-        <div className="main-content">
-          <GameBoard found={found} onSpotFound={handleSpotFound} spots={level.spots} image={level.image} />
-          {pauseModal}
-          {gameOverModal}
-          {timeAdModal}
-          {winModal}
-        </div>
-        <ControlBar found={found} spots={level.spots} onHint={handleHint} onAddTime={handleAddTime} onShare={handleShare} />
+    <div className="app" style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      overflow: 'hidden',
+      touchAction: 'none'
+    }}>
+      <TopBar time={time} total={level.spots.length} found={found.length} />
+      <BackButton onClick={handleBack} />
+      <PauseButton onClick={handlePause} />
+      <div className="main-content">
+        <GameBoard found={found} onSpotFound={handleSpotFound} spots={level.spots} image={level.image} />
+        {pauseModal}
+        {gameOverModal}
+        {timeAdModal}
+        {winModal}
       </div>
-    </AdsProvider>
+      <ControlBar found={found} spots={level.spots} onHint={handleHint} onAddTime={handleAddTime} onShare={handleShare} />
+    </div>
   );
 }
 
