@@ -10,7 +10,7 @@ import { levels } from "./data/levels";
 import Home from "./pages/Home";
 import LevelSelect from "./pages/LevelSelect";
 import { AdsProvider } from './contexts/AdsContext';
-import PlaceholderAd from './components/PlaceholderAd';
+import IMobileAd from './components/IMobileAd';
 import './App.css';
 // import type { Spot } from "./data/spots";
 
@@ -199,9 +199,7 @@ function GamePage() {
           </span>
         </p>
         <div style={{ flex: 1, minHeight: 0 }}>
-          <PlaceholderAd 
-            width="100%" 
-            height="100%" 
+          <IMobileAd 
             onComplete={() => {
               setShowTimeAd(false);
               setGameOver(false);
