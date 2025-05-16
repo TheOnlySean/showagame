@@ -29,7 +29,7 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
           pid: 83654,
           mid: 583903,
           asid: 1898156,
-          type: "banner",
+          type: "movie",
           display: "inline",
           elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
         });
@@ -64,7 +64,40 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
   }, [onComplete, onClose]);
 
   return (
-    <div ref={adContainerRef} id="im-324fdc83799a4edebb93cbcb7dbe1aea" style={{ width: '100%', height: '100%' }} />
+    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '250px' }}>
+      <div 
+        ref={adContainerRef} 
+        id="im-324fdc83799a4edebb93cbcb7dbe1aea" 
+        style={{ 
+          width: '100%', 
+          height: '100%',
+          minHeight: '250px',
+          backgroundColor: '#f5f5f5'
+        }} 
+      />
+      <button
+        onClick={onClose}
+        style={{
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          background: 'rgba(0, 0, 0, 0.5)',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '50%',
+          width: '30px',
+          height: '30px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          fontSize: '20px',
+          zIndex: 2
+        }}
+      >
+        ×
+      </button>
+    </div>
   );
 };
 
