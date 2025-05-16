@@ -1,78 +1,72 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
-declare global {
-  interface Window {
-    admax?: {
-      reload: () => void;
-    };
-  }
-}
-
-interface AdProps {
+interface PlaceholderAdProps {
   width?: string;
   height?: string;
   onComplete?: () => void;
   onClose?: () => void;
-  type?: 'hint' | 'time';
 }
 
-const Ad: React.FC<AdProps> = ({ 
+const PlaceholderAd: React.FC<PlaceholderAdProps> = ({ 
   width = '100%', 
   height = '250px',
   onComplete,
-  onClose,
-  type = 'hint'
+  onClose
 }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [currentAd, setCurrentAd] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
-  const adContainerRef = useRef<HTMLDivElement>(null);
-  const hasCompleted = useRef(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  // 随机选择一个广告视频
+  const getRandomAd = () => {
+    const ads = [
+      'https://firebasestorage.googleapis.com/v0/b/angelsphoto-d2998.firebasestorage.app/o/for%20game%20use%2Fad-1.mp4?alt=media&token=9bc45fda-ae79-4cf2-8318-b7ccf17c90f1',
+      'https://firebasestorage.googleapis.com/v0/b/angelsphoto-d2998.firebasestorage.app/o/for%20game%20use%2Fad-2.mp4?alt=media&token=0f01fa72-163f-4cf3-8f62-4a21a8fe4604',
+      'https://firebasestorage.googleapis.com/v0/b/angelsphoto-d2998.firebasestorage.app/o/for%20game%20use%2Fad-3.mp4?alt=media&token=07f67f09-cb1d-45c9-a5b2-e8c8e6f55801'
+    ];
+    const randomIndex = Math.floor(Math.random() * ads.length);
+    return ads[randomIndex];
+  };
 
   useEffect(() => {
-    // 添加测试模式
-    if (!window.location.hash.includes('adm_test_mode')) {
-      window.location.hash = 'adm_test_mode';
-    }
+    if (videoRef.current) {
+      setCurrentAd(getRandomAd());
+      setIsLoading(true);
+      
+      // 监听视频加载完成事件
+      const handleCanPlay = () => {
+        setIsLoading(false);
+        videoRef.current?.play();
+        setIsPlaying(true);
+      };
 
-    // 模拟广告加载
-    const loadingTimer = setTimeout(() => {
-      setIsLoading(false);
-      // 重新初始化广告
-      if (typeof window.admax !== 'undefined') {
-        window.admax.reload();
-      }
-    }, 1000);
-
-    if (process.env.NODE_ENV !== 'production') return; // 开发环境不插广告
-    try {
-      if (adContainerRef.current) {
-        adContainerRef.current.innerHTML = `<div id="im-324fdc83799a4edebb93cbcb7dbe1aea"></div>`;
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = "https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104";
-        script.onload = () => {
-          (window as any).adsbyimobile = (window as any).adsbyimobile || [];
-          (window as any).adsbyimobile.push({
-            pid: 83654,
-            mid: 583903,
-            asid: 1898156,
-            type: "banner",
-            display: "inline",
-            elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
-          });
-        };
-        adContainerRef.current.appendChild(script);
-      }
-    } catch (e) {
-      // 记录错误，不影响弹窗UI
-      console.error('广告脚本插入失败', e);
+      videoRef.current.addEventListener('canplay', handleCanPlay);
+      return () => {
+        videoRef.current?.removeEventListener('canplay', handleCanPlay);
+      };
     }
-    return () => {
-      if (adContainerRef.current) adContainerRef.current.innerHTML = '';
-      clearTimeout(loadingTimer);
-    };
-  }, [onComplete]);
+  }, []);
+
+  useEffect(() => {
+    if (isPlaying && videoRef.current) {
+      const video = videoRef.current;
+      const timer = setInterval(() => {
+        if (video.currentTime >= video.duration) {
+          setIsPlaying(false);
+          setProgress(100);
+          onComplete?.();
+          clearInterval(timer);
+        } else {
+          setProgress((video.currentTime / video.duration) * 100);
+        }
+      }, 100);
+
+      return () => clearInterval(timer);
+    }
+  }, [isPlaying, onComplete]);
 
   const handleCloseAttempt = () => {
     if (progress < 100) {
@@ -83,78 +77,18 @@ const Ad: React.FC<AdProps> = ({
   };
 
   const handleConfirmClose = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+    setIsPlaying(false);
     setShowConfirmModal(false);
     onClose?.();
   };
 
   const handleCancelClose = () => {
     setShowConfirmModal(false);
-  };
-
-  const getAdContent = () => {
-    if (type === 'hint') {
-      return (
-        <div style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '20px',
-          textAlign: 'center'
-        }}>
-          <h2 style={{ color: '#0288d1', marginBottom: '20px' }}>ヒント広告</h2>
-          <p style={{ color: '#666', marginBottom: '20px' }}>
-            広告を最後まで視聴すると、<br/>
-            まだ見つけていないアイテムを<br/>
-            自動的に1つ見つけてくれます。
-          </p>
-          <div style={{
-            width: '100%',
-            height: '100px',
-            backgroundColor: '#e3f2fd',
-            borderRadius: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '20px'
-          }}>
-            <span style={{ color: '#0288d1' }}>ヒント広告プレースホルダー</span>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '20px',
-          textAlign: 'center'
-        }}>
-          <h2 style={{ color: '#388e3c', marginBottom: '20px' }}>時間延長広告</h2>
-          <p style={{ color: '#666', marginBottom: '20px' }}>
-            広告を最後まで視聴すると、<br/>
-            ゲーム時間が30秒延長されます。
-          </p>
-          <div style={{
-            width: '100%',
-            height: '100px',
-            backgroundColor: '#e8f5e9',
-            borderRadius: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '20px'
-          }}>
-            <span style={{ color: '#388e3c' }}>時間延長広告プレースホルダー</span>
-          </div>
-        </div>
-      );
+    if (videoRef.current) {
+      videoRef.current.play();
     }
   };
 
@@ -186,7 +120,7 @@ const Ad: React.FC<AdProps> = ({
           alignItems: 'center',
           justifyContent: 'center'
         }}>
-          {isLoading ? (
+          {isLoading && (
             <div style={{
               position: 'absolute',
               top: 0,
@@ -216,15 +150,22 @@ const Ad: React.FC<AdProps> = ({
                 `}
               </style>
             </div>
-          ) : (
-            process.env.NODE_ENV === 'production' ? (
-              <div ref={adContainerRef} style={{ width: '100%', height: '100%' }} />
-            ) : (
-              <div style={{ width: '100%', height: '100%', background: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span>广告位（开发环境占位）</span>
-              </div>
-            )
           )}
+          <video
+            ref={videoRef}
+            src={currentAd}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              borderRadius: '4px',
+              maxWidth: '100%',
+              maxHeight: '100%'
+            }}
+            controls={false}
+            playsInline
+            autoPlay
+          />
           <div style={{
             position: 'absolute',
             bottom: 0,
@@ -236,7 +177,7 @@ const Ad: React.FC<AdProps> = ({
             <div style={{
               width: `${progress}%`,
               height: '100%',
-              backgroundColor: type === 'hint' ? '#0288d1' : '#388e3c',
+              backgroundColor: '#d35400',
               transition: 'width 0.1s linear'
             }} />
           </div>
@@ -262,6 +203,30 @@ const Ad: React.FC<AdProps> = ({
           >
             ×
           </button>
+          <a
+            href="https://angelsphoto.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              position: 'absolute',
+              bottom: 20,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              background: '#d35400',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '20px',
+              padding: '8px 20px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              textDecoration: 'none',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+              zIndex: 2
+            }}
+          >
+            今すぐ試し
+          </a>
         </div>
       </div>
 
@@ -325,4 +290,4 @@ const Ad: React.FC<AdProps> = ({
   );
 };
 
-export default Ad; 
+export default PlaceholderAd; 

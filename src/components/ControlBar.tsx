@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import type { Spot } from "../data/spots";
-import Ad from "./Ad";
+import PlaceholderAd from "./PlaceholderAd";
 
 interface ControlBarProps {
   found: number[];
@@ -27,17 +27,13 @@ const ControlBar: React.FC<ControlBarProps> = ({
   const handleHint = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!showHintAd) {
-      setShowHintAd(true);
-    }
+    setShowHintAd(true);
   };
 
   const handleAddTime = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!showTimeAd) {
-      setShowTimeAd(true);
-    }
+    setShowTimeAd(true);
   };
 
   useEffect(() => {
@@ -190,10 +186,9 @@ const ControlBar: React.FC<ControlBarProps> = ({
               overflow: 'hidden',
               touchAction: 'none'
             }}>
-              <Ad 
+              <PlaceholderAd 
                 width="100%" 
                 height="100%" 
-                type="hint"
                 onComplete={() => {
                   setShowHintAd(false);
                   onHint();
@@ -258,10 +253,9 @@ const ControlBar: React.FC<ControlBarProps> = ({
               overflow: 'hidden',
               touchAction: 'none'
             }}>
-              <Ad 
+              <PlaceholderAd 
                 width="100%" 
                 height="100%" 
-                type="time"
                 onComplete={() => {
                   setShowTimeAd(false);
                   onAddTime();
