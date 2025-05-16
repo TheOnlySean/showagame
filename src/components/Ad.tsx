@@ -27,6 +27,7 @@ const Ad: React.FC<AdProps> = ({
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const adContainerRef = useRef<HTMLDivElement>(null);
+  const hasCompleted = useRef(false);
 
   useEffect(() => {
     // 添加测试模式
@@ -46,8 +47,9 @@ const Ad: React.FC<AdProps> = ({
     // 模拟广告进度
     const progressTimer = setInterval(() => {
       setProgress(prev => {
-        if (prev >= 100) {
+        if (prev >= 100 && !hasCompleted.current) {
           clearInterval(progressTimer);
+          hasCompleted.current = true;
           if (onComplete) {
             onComplete();
           }
