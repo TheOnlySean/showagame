@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface AdProps {
   width?: string;
@@ -18,13 +18,17 @@ const Ad: React.FC<AdProps> = ({
   const [progress, setProgress] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const scriptLoaded = useRef(false);
 
   useEffect(() => {
     // 加载 AdMax 广告脚本
-    const script = document.createElement('script');
-    script.src = 'https://adm.shinobi.jp/s/54ce8855c9f73bb652753d0ca73e3bfa';
-    script.async = true;
-    document.body.appendChild(script);
+    if (!scriptLoaded.current) {
+      const script = document.createElement('script');
+      script.src = 'https://adm.shinobi.jp/s/54ce8855c9f73bb652753d0ca73e3bfa';
+      script.async = true;
+      document.body.appendChild(script);
+      scriptLoaded.current = true;
+    }
 
     // 模拟广告加载
     const loadingTimer = setTimeout(() => {
@@ -36,7 +40,9 @@ const Ad: React.FC<AdProps> = ({
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(progressTimer);
-          onComplete?.();
+          if (onComplete) {
+            onComplete();
+          }
           return 100;
         }
         return prev + 1;
@@ -46,7 +52,6 @@ const Ad: React.FC<AdProps> = ({
     return () => {
       clearTimeout(loadingTimer);
       clearInterval(progressTimer);
-      document.body.removeChild(script);
     };
   }, [onComplete]);
 

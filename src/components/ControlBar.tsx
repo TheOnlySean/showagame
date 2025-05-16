@@ -27,13 +27,17 @@ const ControlBar: React.FC<ControlBarProps> = ({
   const handleHint = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setShowHintAd(true);
+    if (!showHintAd) {
+      setShowHintAd(true);
+    }
   };
 
   const handleAddTime = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setShowTimeAd(true);
+    if (!showTimeAd) {
+      setShowTimeAd(true);
+    }
   };
 
   useEffect(() => {
