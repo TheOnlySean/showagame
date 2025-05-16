@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+declare global {
+  interface Window {
+    admax?: {
+      reload: () => void;
+    };
+  }
+}
+
 interface AdProps {
   width?: string;
   height?: string;
@@ -19,6 +27,7 @@ const Ad: React.FC<AdProps> = ({
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const scriptLoaded = useRef(false);
+  const adContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // 加载 AdMax 广告脚本
@@ -26,6 +35,14 @@ const Ad: React.FC<AdProps> = ({
       const script = document.createElement('script');
       script.src = 'https://adm.shinobi.jp/s/54ce8855c9f73bb652753d0ca73e3bfa';
       script.async = true;
+      script.onload = () => {
+        if (adContainerRef.current) {
+          // 重新初始化广告
+          if (typeof window.admax !== 'undefined') {
+            window.admax.reload();
+          }
+        }
+      };
       document.body.appendChild(script);
       scriptLoaded.current = true;
     }
@@ -198,7 +215,9 @@ const Ad: React.FC<AdProps> = ({
               </style>
             </div>
           ) : (
-            <div id="admax" style={{ width: '100%', height: '100%' }} />
+            <div ref={adContainerRef} style={{ width: '100%', height: '100%' }}>
+              <div id="admax" style={{ width: '100%', height: '100%' }} />
+            </div>
           )}
           <div style={{
             position: 'absolute',
