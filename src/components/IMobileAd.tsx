@@ -24,20 +24,37 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
 
     // 初始化广告
     script.onload = () => {
+      console.log('i-mobile script loaded');
       if (window.adsbyimobile) {
+        console.log('Initializing i-mobile ad with config:', {
+          pid: 83654,
+          mid: 583903,
+          asid: 1898156,
+          type: "banner",
+          display: "inline",
+          elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
+        });
+        
         window.adsbyimobile.push({
           pid: 83654,
           mid: 583903,
           asid: 1898156,
-          type: "movie",
+          type: "banner",
           display: "inline",
           elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
         });
+      } else {
+        console.error('adsbyimobile not found in window object');
       }
+    };
+
+    script.onerror = (error) => {
+      console.error('Failed to load i-mobile script:', error);
     };
 
     // 监听广告加载完成事件
     const handleAdComplete = () => {
+      console.log('i-mobile ad completed');
       if (onComplete) {
         onComplete();
       }
@@ -45,6 +62,7 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
 
     // 监听广告关闭事件
     const handleAdClose = () => {
+      console.log('i-mobile ad closed');
       if (onClose) {
         onClose();
       }
@@ -72,9 +90,14 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
           width: '100%', 
           height: '100%',
           minHeight: '250px',
-          backgroundColor: '#f5f5f5'
+          backgroundColor: '#f5f5f5',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }} 
-      />
+      >
+        <div style={{ color: '#666', fontSize: '14px' }}>広告を読み込み中...</div>
+      </div>
       <button
         onClick={onClose}
         style={{
