@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 declare global {
   interface Window {
     adsbyimobile?: any[];
+    _imobile_ads?: any;
   }
 }
 
@@ -14,6 +15,7 @@ interface IMobileAdProps {
 
 const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
   const adContainerRef = useRef<HTMLDivElement>(null);
+  const initialized = useRef(false);
 
   useEffect(() => {
     let script: HTMLScriptElement | null = null;
@@ -21,6 +23,8 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
     const maxRetries = 3;
 
     const initializeAd = () => {
+      if (initialized.current) return;
+      
       console.log('Initializing i-mobile ad with config:', {
         pid: 83654,
         mid: 583903,
@@ -29,24 +33,23 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
         display: "inline",
         elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
       });
-      
-      if (window.adsbyimobile) {
-        window.adsbyimobile.push({
-          pid: 83654,
-          mid: 583903,
-          asid: 1898156,
-          type: "banner",
-          display: "inline",
-          elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
-        });
-      } else {
-        console.error('adsbyimobile not found in window object');
-        if (retryCount < maxRetries) {
-          retryCount++;
-          console.log(`Retrying initialization (${retryCount}/${maxRetries})...`);
-          setTimeout(initializeAd, 1000); // 1秒后重试
-        }
+
+      // 确保window.adsbyimobile存在
+      if (!window.adsbyimobile) {
+        window.adsbyimobile = [];
       }
+
+      // 添加广告配置
+      window.adsbyimobile.push({
+        pid: 83654,
+        mid: 583903,
+        asid: 1898156,
+        type: "banner",
+        display: "inline",
+        elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
+      });
+
+      initialized.current = true;
     };
 
     const loadScript = () => {
@@ -64,7 +67,15 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
       script.onload = () => {
         console.log('i-mobile script loaded');
         // 给脚本一点时间来初始化window.adsbyimobile
-        setTimeout(initializeAd, 500);
+        setTimeout(() => {
+          if (!window.adsbyimobile && retryCount < maxRetries) {
+            retryCount++;
+            console.log(`Retrying script load (${retryCount}/${maxRetries})...`);
+            loadScript();
+          } else {
+            initializeAd();
+          }
+        }, 1000);
       };
 
       script.onerror = (error) => {
@@ -72,7 +83,7 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
         if (retryCount < maxRetries) {
           retryCount++;
           console.log(`Retrying script load (${retryCount}/${maxRetries})...`);
-          setTimeout(loadScript, 1000); // 1秒后重试
+          setTimeout(loadScript, 1000);
         }
       };
 
@@ -110,6 +121,7 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
       if (script && document.body.contains(script)) {
         document.body.removeChild(script);
       }
+      initialized.current = false;
     };
   }, [onComplete, onClose]);
 
