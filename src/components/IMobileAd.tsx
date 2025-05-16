@@ -15,84 +15,8 @@ interface IMobileAdProps {
 
 const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
   const adContainerRef = useRef<HTMLDivElement>(null);
-  const initialized = useRef(false);
 
   useEffect(() => {
-    let script: HTMLScriptElement | null = null;
-    let retryCount = 0;
-    const maxRetries = 3;
-
-    const initializeAd = () => {
-      if (initialized.current) return;
-      
-      console.log('Initializing i-mobile ad with config:', {
-        pid: 83654,
-        mid: 583903,
-        asid: 1898156,
-        type: "banner",
-        display: "inline",
-        elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
-      });
-
-      // 确保window.adsbyimobile存在
-      if (!window.adsbyimobile) {
-        window.adsbyimobile = [];
-      }
-
-      // 添加广告配置
-      window.adsbyimobile.push({
-        pid: 83654,
-        mid: 583903,
-        asid: 1898156,
-        type: "banner",
-        display: "inline",
-        elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
-      });
-
-      initialized.current = true;
-    };
-
-    const loadScript = () => {
-      // 移除可能存在的旧脚本
-      const oldScript = document.querySelector('script[src*="imp-adedge.i-mobile.co.jp"]');
-      if (oldScript) {
-        document.body.removeChild(oldScript);
-      }
-
-      // 创建新脚本
-      script = document.createElement('script');
-      script.src = 'https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104';
-      script.async = true;
-      
-      script.onload = () => {
-        console.log('i-mobile script loaded');
-        // 给脚本一点时间来初始化window.adsbyimobile
-        setTimeout(() => {
-          if (!window.adsbyimobile && retryCount < maxRetries) {
-            retryCount++;
-            console.log(`Retrying script load (${retryCount}/${maxRetries})...`);
-            loadScript();
-          } else {
-            initializeAd();
-          }
-        }, 1000);
-      };
-
-      script.onerror = (error) => {
-        console.error('Failed to load i-mobile script:', error);
-        if (retryCount < maxRetries) {
-          retryCount++;
-          console.log(`Retrying script load (${retryCount}/${maxRetries})...`);
-          setTimeout(loadScript, 1000);
-        }
-      };
-
-      document.body.appendChild(script);
-    };
-
-    // 开始加载脚本
-    loadScript();
-
     // 监听广告加载完成事件
     const handleAdComplete = () => {
       console.log('i-mobile ad completed');
@@ -117,11 +41,6 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
       // 清理事件监听器
       window.removeEventListener('imobileAdComplete', handleAdComplete);
       window.removeEventListener('imobileAdClose', handleAdClose);
-      // 移除脚本
-      if (script && document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-      initialized.current = false;
     };
   }, [onComplete, onClose]);
 
@@ -129,7 +48,6 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '250px' }}>
       <div 
         ref={adContainerRef} 
-        id="im-324fdc83799a4edebb93cbcb7dbe1aea" 
         style={{ 
           width: '100%', 
           height: '100%',
@@ -140,7 +58,22 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
           justifyContent: 'center'
         }} 
       >
-        <div style={{ color: '#666', fontSize: '14px' }}>広告を読み込み中...</div>
+        {/* i-mobile广告标签代码 */}
+        <script type="text/javascript">
+          {`
+            var _imobile_ads = _imobile_ads || [];
+            _imobile_ads.push({
+              pid: 83654,
+              mid: 583903,
+          asid: 1898156,
+          type: "banner",
+          display: "inline",
+          elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
+            });
+          `}
+        </script>
+        <script type="text/javascript" src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104" async></script>
+        <div id="im-324fdc83799a4edebb93cbcb7dbe1aea" style={{ width: '100%', height: '100%' }}></div>
       </div>
       <button
         onClick={onClose}
