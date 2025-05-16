@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import type { Spot } from "../data/spots";
-import PlaceholderAd from "./PlaceholderAd";
+import Ad from "./Ad";
 
 interface ControlBarProps {
   found: number[];
@@ -186,7 +186,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
               overflow: 'hidden',
               touchAction: 'none'
             }}>
-              <PlaceholderAd 
+              <Ad 
                 width="100%" 
                 height="100%" 
                 onComplete={() => {
@@ -253,7 +253,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
               overflow: 'hidden',
               touchAction: 'none'
             }}>
-              <PlaceholderAd 
+              <Ad 
                 width="100%" 
                 height="100%" 
                 onComplete={() => {

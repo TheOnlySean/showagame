@@ -1,72 +1,45 @@
 import React, { useState, useEffect } from 'react';
 
-interface PlaceholderAdProps {
+interface AdProps {
   width?: string;
   height?: string;
   onComplete?: () => void;
   onClose?: () => void;
 }
 
-const PlaceholderAd: React.FC<PlaceholderAdProps> = ({ 
+const Ad: React.FC<AdProps> = ({ 
   width = '100%', 
   height = '250px',
   onComplete,
   onClose
 }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [currentAd, setCurrentAd] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-
-  // 随机选择一个广告视频
-  const getRandomAd = () => {
-    const ads = [
-      'https://firebasestorage.googleapis.com/v0/b/angelsphoto-d2998.firebasestorage.app/o/for%20game%20use%2Fad-1.mp4?alt=media&token=9bc45fda-ae79-4cf2-8318-b7ccf17c90f1',
-      'https://firebasestorage.googleapis.com/v0/b/angelsphoto-d2998.firebasestorage.app/o/for%20game%20use%2Fad-2.mp4?alt=media&token=0f01fa72-163f-4cf3-8f62-4a21a8fe4604',
-      'https://firebasestorage.googleapis.com/v0/b/angelsphoto-d2998.firebasestorage.app/o/for%20game%20use%2Fad-3.mp4?alt=media&token=07f67f09-cb1d-45c9-a5b2-e8c8e6f55801'
-    ];
-    const randomIndex = Math.floor(Math.random() * ads.length);
-    return ads[randomIndex];
-  };
 
   useEffect(() => {
-    if (videoRef.current) {
-      setCurrentAd(getRandomAd());
-      setIsLoading(true);
-      
-      // 监听视频加载完成事件
-      const handleCanPlay = () => {
-        setIsLoading(false);
-        videoRef.current?.play();
-        setIsPlaying(true);
-      };
+    // 模拟广告加载
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
 
-      videoRef.current.addEventListener('canplay', handleCanPlay);
-      return () => {
-        videoRef.current?.removeEventListener('canplay', handleCanPlay);
-      };
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isPlaying && videoRef.current) {
-      const video = videoRef.current;
-      const timer = setInterval(() => {
-        if (video.currentTime >= video.duration) {
-          setIsPlaying(false);
-          setProgress(100);
+    // 模拟广告进度
+    const progressTimer = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(progressTimer);
           onComplete?.();
-          clearInterval(timer);
-        } else {
-          setProgress((video.currentTime / video.duration) * 100);
+          return 100;
         }
-      }, 100);
+        return prev + 1;
+      });
+    }, 50);
 
-      return () => clearInterval(timer);
-    }
-  }, [isPlaying, onComplete]);
+    return () => {
+      clearTimeout(loadingTimer);
+      clearInterval(progressTimer);
+    };
+  }, [onComplete]);
 
   const handleCloseAttempt = () => {
     if (progress < 100) {
@@ -77,19 +50,12 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
   };
 
   const handleConfirmClose = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-    }
-    setIsPlaying(false);
     setShowConfirmModal(false);
     onClose?.();
   };
 
   const handleCancelClose = () => {
     setShowConfirmModal(false);
-    if (videoRef.current) {
-      videoRef.current.play();
-    }
   };
 
   return (
@@ -120,7 +86,7 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
           alignItems: 'center',
           justifyContent: 'center'
         }}>
-          {isLoading && (
+          {isLoading ? (
             <div style={{
               position: 'absolute',
               top: 0,
@@ -150,22 +116,36 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
                 `}
               </style>
             </div>
-          )}
-          <video
-            ref={videoRef}
-            src={currentAd}
-            style={{
+          ) : (
+            <div style={{
               width: '100%',
               height: '100%',
-              objectFit: 'contain',
-              borderRadius: '4px',
-              maxWidth: '100%',
-              maxHeight: '100%'
-            }}
-            controls={false}
-            playsInline
-            autoPlay
-          />
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '20px',
+              textAlign: 'center'
+            }}>
+              <h2 style={{ color: '#d35400', marginBottom: '20px' }}>広告</h2>
+              <p style={{ color: '#666', marginBottom: '20px' }}>
+                この広告はデモ用です。<br/>
+                実際のアプリでは、ここに広告が表示されます。
+              </p>
+              <div style={{
+                width: '100%',
+                height: '100px',
+                backgroundColor: '#ddd',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '20px'
+              }}>
+                <span style={{ color: '#666' }}>広告プレースホルダー</span>
+              </div>
+            </div>
+          )}
           <div style={{
             position: 'absolute',
             bottom: 0,
@@ -203,30 +183,6 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
           >
             ×
           </button>
-          <a
-            href="https://angelsphoto.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              position: 'absolute',
-              bottom: 20,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              background: '#d35400',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '20px',
-              padding: '8px 20px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: 'bold',
-              textDecoration: 'none',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-              zIndex: 2
-            }}
-          >
-            今すぐ試し
-          </a>
         </div>
       </div>
 
@@ -290,4 +246,4 @@ const PlaceholderAd: React.FC<PlaceholderAdProps> = ({
   );
 };
 
-export default PlaceholderAd; 
+export default Ad; 
