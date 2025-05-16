@@ -44,24 +44,33 @@ const Ad: React.FC<AdProps> = ({
       }
     }, 1000);
 
-    // 模拟广告进度
-    const progressTimer = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100 && !hasCompleted.current) {
-          clearInterval(progressTimer);
-          hasCompleted.current = true;
-          if (onComplete) {
-            onComplete();
-          }
-          return 100;
-        }
-        return prev + 1;
+    // 动态插入 i-mobile 广告代码
+    if (adContainerRef.current) {
+      adContainerRef.current.innerHTML = `<div id="im-324fdc83799a4edebb93cbcb7dbe1aea"></div>`;
+    }
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = "https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104";
+    script.onload = () => {
+      (window as any).adsbyimobile = (window as any).adsbyimobile || [];
+      (window as any).adsbyimobile.push({
+        pid: 83654,
+        mid: 583903,
+        asid: 1898156,
+        type: "banner",
+        display: "inline",
+        elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
       });
-    }, 50);
-
+    };
+    if (adContainerRef.current) {
+      adContainerRef.current.appendChild(script);
+    }
+    // 清理
     return () => {
+      if (adContainerRef.current) {
+        adContainerRef.current.innerHTML = '';
+      }
       clearTimeout(loadingTimer);
-      clearInterval(progressTimer);
     };
   }, [onComplete]);
 
@@ -208,9 +217,7 @@ const Ad: React.FC<AdProps> = ({
               </style>
             </div>
           ) : (
-            <div ref={adContainerRef} style={{ width: '100%', height: '100%' }}>
-              <div id="admax" style={{ width: '100%', height: '100%' }} />
-            </div>
+            <div ref={adContainerRef} style={{ width: '100%', height: '100%' }} />
           )}
           <div style={{
             position: 'absolute',
