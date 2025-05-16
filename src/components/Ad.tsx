@@ -26,30 +26,16 @@ const Ad: React.FC<AdProps> = ({
   const [progress, setProgress] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const scriptLoaded = useRef(false);
   const adContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // 加载 AdMax 广告脚本
-    if (!scriptLoaded.current) {
-      const script = document.createElement('script');
-      script.src = 'https://adm.shinobi.jp/s/54ce8855c9f73bb652753d0ca73e3bfa';
-      script.async = true;
-      script.onload = () => {
-        if (adContainerRef.current) {
-          // 重新初始化广告
-          if (typeof window.admax !== 'undefined') {
-            window.admax.reload();
-          }
-        }
-      };
-      document.body.appendChild(script);
-      scriptLoaded.current = true;
-    }
-
     // 模拟广告加载
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
+      // 重新初始化广告
+      if (typeof window.admax !== 'undefined') {
+        window.admax.reload();
+      }
     }, 1000);
 
     // 模拟广告进度
