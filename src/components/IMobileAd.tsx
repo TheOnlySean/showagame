@@ -16,25 +16,21 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
   const adContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // 加载 i-mobile 广告脚本
-    const script = document.createElement('script');
-    script.src = 'https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104';
-    script.async = true;
-    document.body.appendChild(script);
+    let script: HTMLScriptElement | null = null;
+    let retryCount = 0;
+    const maxRetries = 3;
 
-    // 初始化广告
-    script.onload = () => {
-      console.log('i-mobile script loaded');
+    const initializeAd = () => {
+      console.log('Initializing i-mobile ad with config:', {
+        pid: 83654,
+        mid: 583903,
+        asid: 1898156,
+        type: "banner",
+        display: "inline",
+        elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
+      });
+      
       if (window.adsbyimobile) {
-        console.log('Initializing i-mobile ad with config:', {
-          pid: 83654,
-          mid: 583903,
-          asid: 1898156,
-          type: "banner",
-          display: "inline",
-          elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
-        });
-        
         window.adsbyimobile.push({
           pid: 83654,
           mid: 583903,
@@ -45,12 +41,46 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
         });
       } else {
         console.error('adsbyimobile not found in window object');
+        if (retryCount < maxRetries) {
+          retryCount++;
+          console.log(`Retrying initialization (${retryCount}/${maxRetries})...`);
+          setTimeout(initializeAd, 1000); // 1秒后重试
+        }
       }
     };
 
-    script.onerror = (error) => {
-      console.error('Failed to load i-mobile script:', error);
+    const loadScript = () => {
+      // 移除可能存在的旧脚本
+      const oldScript = document.querySelector('script[src*="imp-adedge.i-mobile.co.jp"]');
+      if (oldScript) {
+        document.body.removeChild(oldScript);
+      }
+
+      // 创建新脚本
+      script = document.createElement('script');
+      script.src = 'https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104';
+      script.async = true;
+      
+      script.onload = () => {
+        console.log('i-mobile script loaded');
+        // 给脚本一点时间来初始化window.adsbyimobile
+        setTimeout(initializeAd, 500);
+      };
+
+      script.onerror = (error) => {
+        console.error('Failed to load i-mobile script:', error);
+        if (retryCount < maxRetries) {
+          retryCount++;
+          console.log(`Retrying script load (${retryCount}/${maxRetries})...`);
+          setTimeout(loadScript, 1000); // 1秒后重试
+        }
+      };
+
+      document.body.appendChild(script);
     };
+
+    // 开始加载脚本
+    loadScript();
 
     // 监听广告加载完成事件
     const handleAdComplete = () => {
@@ -77,7 +107,9 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
       window.removeEventListener('imobileAdComplete', handleAdComplete);
       window.removeEventListener('imobileAdClose', handleAdClose);
       // 移除脚本
-      document.body.removeChild(script);
+      if (script && document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
   }, [onComplete, onClose]);
 
