@@ -20,6 +20,12 @@ const Ad: React.FC<AdProps> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // 加载 AdMax 广告脚本
+    const script = document.createElement('script');
+    script.src = 'https://adm.shinobi.jp/s/54ce8855c9f73bb652753d0ca73e3bfa';
+    script.async = true;
+    document.body.appendChild(script);
+
     // 模拟广告加载
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
@@ -40,6 +46,7 @@ const Ad: React.FC<AdProps> = ({
     return () => {
       clearTimeout(loadingTimer);
       clearInterval(progressTimer);
+      document.body.removeChild(script);
     };
   }, [onComplete]);
 
@@ -186,7 +193,7 @@ const Ad: React.FC<AdProps> = ({
               </style>
             </div>
           ) : (
-            getAdContent()
+            <div id="admax" style={{ width: '100%', height: '100%' }} />
           )}
           <div style={{
             position: 'absolute',
