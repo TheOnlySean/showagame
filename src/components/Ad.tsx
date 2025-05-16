@@ -29,6 +29,11 @@ const Ad: React.FC<AdProps> = ({
   const adContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // 添加测试模式
+    if (!window.location.hash.includes('adm_test_mode')) {
+      window.location.hash = 'adm_test_mode';
+    }
+
     // 模拟广告加载
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
