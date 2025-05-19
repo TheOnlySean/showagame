@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
 // 声明全局类型
 declare global {
@@ -14,8 +14,6 @@ interface IMobileAdProps {
 }
 
 const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
-  const adContainerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     // 监听广告加载完成事件
     const handleAdComplete = () => {
@@ -46,34 +44,21 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '250px' }}>
-      <div 
-        ref={adContainerRef} 
-        style={{ 
-          width: '100%', 
-          height: '100%',
-          minHeight: '250px',
-          backgroundColor: '#f5f5f5',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }} 
-      >
-        {/* i-mobile广告标签代码 */}
-        <script type="text/javascript">
-          {`
-            var _imobile_ads = _imobile_ads || [];
-            _imobile_ads.push({
-              pid: 83654,
-              mid: 583903,
-          asid: 1898156,
-          type: "banner",
-          display: "inline",
-          elementid: "im-324fdc83799a4edebb93cbcb7dbe1aea"
-            });
-          `}
-        </script>
-        <script type="text/javascript" src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104" async></script>
-        <div id="im-324fdc83799a4edebb93cbcb7dbe1aea" style={{ width: '100%', height: '100%' }}></div>
+      <div style={{ 
+        width: '100%', 
+        height: '100%',
+        minHeight: '250px',
+        backgroundColor: '#f5f5f5',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div id="im-3eba128ee24a4908a8fdb23c6bf2321c">
+          <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
+          <script dangerouslySetInnerHTML={{
+            __html: `(window.adsbyimobile=window.adsbyimobile||[]).push({pid:83654,mid:583903,asid:1898156,type:"banner",display:"inline",elementid:"im-3eba128ee24a4908a8fdb23c6bf2321c"})`
+          }} />
+        </div>
       </div>
       <button
         onClick={onClose}
