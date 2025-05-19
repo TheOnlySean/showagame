@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 // 声明全局类型
 declare global {
@@ -14,52 +14,60 @@ interface IMobileAdProps {
 }
 
 const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
+  const adRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    // 监听广告加载完成事件
-    const handleAdComplete = () => {
-      console.log('i-mobile ad completed');
-      if (onComplete) {
-        onComplete();
-      }
-    };
+    // 清空广告容器
+    if (adRef.current) {
+      adRef.current.innerHTML = '';
+    }
 
-    // 监听广告关闭事件
-    const handleAdClose = () => {
-      console.log('i-mobile ad closed');
-      if (onClose) {
-        onClose();
-      }
-    };
+    // 创建广告位div
+    const adDiv = document.createElement('div');
+    adDiv.id = 'im-3eba128ee24a4908a8fdb23c6bf2321c';
+    adDiv.style.width = '100%';
+    adDiv.style.height = '100%';
+    if (adRef.current) {
+      adRef.current.appendChild(adDiv);
+    }
 
-    // 添加事件监听器
-    window.addEventListener('imobileAdComplete', handleAdComplete);
-    window.addEventListener('imobileAdClose', handleAdClose);
+    // 插入广告脚本
+    const script1 = document.createElement('script');
+    script1.async = true;
+    script1.src = 'https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104';
+    if (adRef.current) {
+      adRef.current.appendChild(script1);
+    }
 
+    // 插入广告初始化脚本
+    const script2 = document.createElement('script');
+    script2.innerHTML = '(window.adsbyimobile=window.adsbyimobile||[]).push({pid:83654,mid:583903,asid:1898156,type:"banner",display:"inline",elementid:"im-3eba128ee24a4908a8fdb23c6bf2321c"})';
+    if (adRef.current) {
+      adRef.current.appendChild(script2);
+    }
+
+    // 清理
     return () => {
-      // 清理事件监听器
-      window.removeEventListener('imobileAdComplete', handleAdComplete);
-      window.removeEventListener('imobileAdClose', handleAdClose);
+      if (adRef.current) {
+        adRef.current.innerHTML = '';
+      }
     };
-  }, [onComplete, onClose]);
+  }, []);
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '250px' }}>
-      <div style={{ 
-        width: '100%', 
-        height: '100%',
-        minHeight: '250px',
-        backgroundColor: '#f5f5f5',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <div id="im-3eba128ee24a4908a8fdb23c6bf2321c">
-          <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
-          <script dangerouslySetInnerHTML={{
-            __html: `(window.adsbyimobile=window.adsbyimobile||[]).push({pid:83654,mid:583903,asid:1898156,type:"banner",display:"inline",elementid:"im-3eba128ee24a4908a8fdb23c6bf2321c"})`
-          }} />
-        </div>
-      </div>
+      <div
+        ref={adRef}
+        style={{
+          width: '100%',
+          height: '100%',
+          minHeight: '250px',
+          backgroundColor: '#f5f5f5',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      />
       <button
         onClick={onClose}
         style={{
