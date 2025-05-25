@@ -63,22 +63,43 @@ const ControlBar: React.FC<ControlBarProps> = ({
   const handleShare = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setShareStep('init');
-    setShowShareModal(true);
-  };
-
-  const doShare = () => {
     const shareUrl = encodeURIComponent(window.location.origin);
     const shareText = encodeURIComponent("昭和の間違い探しゲーム：懐かしい時代の写真で遊んでみませんか？");
     const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
+    
+    // 检查是否是 LINE 浏览器
     const isLineBrowser = /Line/.test(navigator.userAgent);
     if (isLineBrowser) {
+      // 在 LINE 浏览器中，使用 LINE 的分享 API
       window.open(lineShareUrl, '_blank');
-      setShareStep('shared');
+      setPendingShareReward(true);
+      setShareStartTime(Date.now());
     } else {
-      setShowShareModal(false);
-      if (typeof window.onShareReward === 'function') {
-        window.onShareReward();
+      // 非 LINE 浏览器，使用原生分享 API
+      if (navigator.share) {
+        navigator.share({
+          title: 'ゲームシェア',
+          text: '昭和の間違い探しゲーム：懐かしい時代の写真で遊んでみませんか？',
+          url: window.location.origin
+        }).then(() => {
+          // 分享成功
+          if (typeof window.onShareReward === 'function') {
+            window.onShareReward();
+          }
+        }).catch(() => {
+          // 分享失败
+          alert('シェアに失敗しました。もう一度お試しください。');
+        });
+      } else {
+        // 如果浏览器不支持原生分享，则复制链接
+        navigator.clipboard.writeText(window.location.origin).then(() => {
+          alert('リンクをコピーしました。友達にシェアしてください。');
+          if (typeof window.onShareReward === 'function') {
+            window.onShareReward();
+          }
+        }).catch(() => {
+          alert('リンクのコピーに失敗しました。もう一度お試しください。');
+        });
       }
     }
   };
@@ -294,7 +315,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
                 このゲームを友だちにシェアすると、<br/>30秒延長されます！<br/><br/>
                 <div style={{display:'flex', gap:'1.2em', justifyContent:'center', marginTop:'1.5em'}}>
                   <button style={{flex:1, background:'#e57373', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={()=>setShowShareModal(false)}>キャンセル</button>
-                  <button style={{flex:1, background:'#388e3c', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={doShare}>シェア</button>
+                  <button style={{flex:1, background:'#388e3c', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={handleShare}>シェア</button>
                 </div>
               </>
             ) : (
