@@ -191,6 +191,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
                   onHint();
                 }}
                 onClose={() => setShowHintAd(false)}
+                requiredWatchTime={30}
               />
             </div>
           </div>
@@ -256,6 +257,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
                   onAddTime();
                 }}
                 onClose={() => setShowTimeAd(false)}
+                requiredWatchTime={30}
               />
             </div>
           </div>
