@@ -306,7 +306,7 @@ function GamePage() {
               setGameOver(true);
               setShowGameOver(true);
             }}
-            requiredWatchTime={30}
+            requiredWatchTime={10}
           />
         </div>
       </div>

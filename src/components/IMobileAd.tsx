@@ -14,7 +14,7 @@ interface IMobileAdProps {
   requiredWatchTime?: number; // 新增：需要观看的时间（秒）
 }
 
-const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose, requiredWatchTime = 30 }) => {
+const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose, requiredWatchTime = 10 }) => {
   const adRef = useRef<HTMLDivElement>(null);
   const [remainingTime, setRemainingTime] = useState(requiredWatchTime);
   const [canClose, setCanClose] = useState(false);
