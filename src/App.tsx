@@ -37,6 +37,7 @@ function GamePage() {
   const [showTimeAd, setShowTimeAd] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [pendingShareReward, setPendingShareReward] = useState(false);
+  const [shareStartTime, setShareStartTime] = useState(0);
 
   // 监听 levelId 变化，重置游戏状态
   useEffect(() => {
@@ -146,18 +147,114 @@ function GamePage() {
     return () => document.removeEventListener('visibilitychange', handleVisibility);
   }, [pendingShareReward]);
 
+  // 转发奖励处理
   const handleShareReward = () => {
+    setShowGameOver(false);
     setShowShareModal(true);
-  };
-  const doShare = () => {
-    const shareUrl = encodeURIComponent(window.location.origin);
-    const shareText = encodeURIComponent("昭和の間違い探しゲーム：懐かしい時代の写真で遊んでみませんか？");
-    const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}`;
     setPendingShareReward(true);
-    setShowShareModal(false);
-    setShowGameOver(false); // 关闭Game Over弹窗
-    window.open(lineShareUrl, '_blank');
+    setShareStartTime(Date.now());
   };
+
+  // 转发完成回调
+  useEffect(() => {
+    window.onShareReward = () => {
+      setPendingShareReward(false);
+      setShowShareModal(false);
+      setGameOver(false);
+      setTime(t => t + 30);
+    };
+  }, []);
+
+  // 转发模态框
+  const shareModal = showShareModal ? ReactDOM.createPortal(
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000
+    }}>
+      <div style={{
+        background: '#fff',
+        padding: '20px',
+        borderRadius: '8px',
+        width: 'min(85vw, 320px)',
+        textAlign: 'center'
+      }}>
+        <h3 style={{ marginBottom: '15px' }}>シェアして30秒延長</h3>
+        <p style={{ marginBottom: '20px' }}>
+          このゲームを友達にシェアすると、<br/>
+          ゲーム時間が30秒追加されます。
+        </p>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+          <button
+            onClick={() => {
+              setShowShareModal(false);
+              setPendingShareReward(false);
+              setGameOver(true);
+              setShowGameOver(true);
+            }}
+            style={{
+              background: '#f44336',
+              color: '#fff',
+              border: 'none',
+              padding: '8px 16px',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            キャンセル
+          </button>
+          <button
+            onClick={() => {
+              const shareUrl = window.location.href;
+              const shareText = 'このゲームをプレイしてみてください！';
+              if (navigator.share) {
+                navigator.share({
+                  title: 'ゲームシェア',
+                  text: shareText,
+                  url: shareUrl
+                }).catch(() => {
+                  alert('シェアに失敗しました。もう一度お試しください。');
+                  setPendingShareReward(false);
+                  setShowShareModal(false);
+                  setGameOver(true);
+                  setShowGameOver(true);
+                });
+              } else {
+                // 如果浏览器不支持原生分享，则复制链接
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                  alert('リンクをコピーしました。友達にシェアしてください。');
+                }).catch(() => {
+                  alert('リンクのコピーに失敗しました。もう一度お試しください。');
+                  setPendingShareReward(false);
+                  setShowShareModal(false);
+                  setGameOver(true);
+                  setShowGameOver(true);
+                });
+              }
+            }}
+            style={{
+              background: '#4caf50',
+              color: '#fff',
+              border: 'none',
+              padding: '8px 16px',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            シェアする
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  ) : null;
 
   // 時間追加廣告彈窗
   const timeAdModal = showTimeAd ? ReactDOM.createPortal(
@@ -206,8 +303,10 @@ function GamePage() {
             }}
             onClose={() => {
               setShowTimeAd(false);
-              resetGame();
+              setGameOver(true);
+              setShowGameOver(true);
             }}
+            requiredWatchTime={30}
           />
         </div>
       </div>
@@ -511,52 +610,10 @@ function GamePage() {
           >広告視聴で60秒延長</button>
         </div>
       </div>
-      {showShareModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 2000
-        }}>
-          <div style={{
-            background: '#fff',
-            borderRadius: '12px',
-            padding: '2em 1.5em 1.5em 1.5em',
-            minWidth: 240,
-            maxWidth: '90vw',
-            textAlign: 'center',
-            boxShadow: '0 4px 16px #b77b4b33',
-            fontSize: '1.1em',
-            color: '#b77b4b',
-            fontWeight: 600
-          }}>
-            このゲームを友だちにシェアすると、<br/>30秒の延長がもらえます！<br/><br/>
-            <div style={{display:'flex', gap:'1.2em', justifyContent:'center', marginTop:'1.5em'}}>
-              <button style={{flex:1, background:'#e57373', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={()=>setShowShareModal(false)}>放棄</button>
-              <button style={{flex:1, background:'#388e3c', color:'#fff', fontWeight:'bold', fontSize:'1em', border:'none', borderRadius:'12px', boxShadow:'0 2px 8px #b77b4b33', padding:'0.7em 0'}} onClick={doShare}>シェア</button>
-            </div>
-          </div>
-        </div>
-      )}
+      {shareModal}
     </div>,
     document.body
   ) : null;
-
-  useEffect(() => {
-    // 分享奖励回调
-    window.onShareReward = () => {
-      setTime(t => t + 30);
-    };
-    return () => {
-      window.onShareReward = undefined;
-    };
-  }, []);
 
   return (
     <div className="app" style={{

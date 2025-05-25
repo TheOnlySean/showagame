@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // 声明全局类型
 declare global {
@@ -11,10 +11,14 @@ declare global {
 interface IMobileAdProps {
   onComplete?: () => void;
   onClose?: () => void;
+  requiredWatchTime?: number; // 新增：需要观看的时间（秒）
 }
 
-const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
+const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose, requiredWatchTime = 30 }) => {
   const adRef = useRef<HTMLDivElement>(null);
+  const [remainingTime, setRemainingTime] = useState(requiredWatchTime);
+  const [canClose, setCanClose] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     // 清空广告容器
@@ -46,13 +50,43 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
       adRef.current.appendChild(script2);
     }
 
+    // 开始倒计时
+    const timer = setInterval(() => {
+      setRemainingTime(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setCanClose(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
     // 清理
     return () => {
+      clearInterval(timer);
       if (adRef.current) {
         adRef.current.innerHTML = '';
       }
     };
-  }, []);
+  }, [requiredWatchTime]);
+
+  const handleCloseAttempt = () => {
+    if (canClose) {
+      onComplete?.();
+    } else {
+      setShowConfirmModal(true);
+    }
+  };
+
+  const handleConfirmClose = () => {
+    setShowConfirmModal(false);
+    onClose?.();
+  };
+
+  const handleCancelClose = () => {
+    setShowConfirmModal(false);
+  };
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '250px' }}>
@@ -68,28 +102,103 @@ const IMobileAd: React.FC<IMobileAdProps> = ({ onComplete, onClose }) => {
           justifyContent: 'center'
         }}
       />
-      <button
-        onClick={onClose}
-        style={{
-          position: 'absolute',
-          top: 10,
-          right: 10,
-          background: 'rgba(0, 0, 0, 0.5)',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '50%',
-          width: '30px',
-          height: '30px',
+      <div style={{
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px'
+      }}>
+        {!canClose && (
+          <div style={{
+            background: 'rgba(0, 0, 0, 0.7)',
+            color: '#fff',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            fontSize: '14px'
+          }}>
+            {remainingTime}秒
+          </div>
+        )}
+        <button
+          onClick={handleCloseAttempt}
+          style={{
+            background: 'rgba(0, 0, 0, 0.5)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '50%',
+            width: '30px',
+            height: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            fontSize: '20px',
+            zIndex: 2
+          }}
+        >
+          ×
+        </button>
+      </div>
+
+      {showConfirmModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          cursor: 'pointer',
-          fontSize: '20px',
-          zIndex: 2
-        }}
-      >
-        ×
-      </button>
+          zIndex: 1001
+        }}>
+          <div style={{
+            background: '#fff',
+            padding: '20px',
+            borderRadius: '8px',
+            maxWidth: '80%',
+            textAlign: 'center'
+          }}>
+            <h3 style={{ marginBottom: '15px', color: '#d32f2f' }}>ご注意</h3>
+            <p style={{ marginBottom: '20px' }}>
+              広告を途中で閉じると、ボーナスを獲得できません。<br/>
+              あと{remainingTime}秒で完了します。<br/>
+              本当に閉じますか？
+            </p>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+              <button
+                onClick={handleCancelClose}
+                style={{
+                  background: '#4caf50',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '8px 16px',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                いいえ
+              </button>
+              <button
+                onClick={handleConfirmClose}
+                style={{
+                  background: '#f44336',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '8px 16px',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                はい
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

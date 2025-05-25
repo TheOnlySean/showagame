@@ -39,27 +39,26 @@ const ControlBar: React.FC<ControlBarProps> = ({
   useEffect(() => {
     const handleVisibility = () => {
       if (document.visibilityState === 'visible' && pendingShareReward && shareStartTime) {
-        const isLineBrowser = /Line/.test(navigator.userAgent);
-        if (isLineBrowser) {
-          const currentTime = Date.now();
-          const timeDiff = currentTime - shareStartTime;
-          if (timeDiff >= 3000) {
-            setPendingShareReward(false);
-            setShareStartTime(null);
-            if (typeof window.onShareReward === 'function') {
-              window.onShareReward();
-            }
-          } else {
-            setPendingShareReward(false);
-            setShareStartTime(null);
-            alert('シェアを完了してください。');
+        const currentTime = Date.now();
+        const timeDiff = currentTime - shareStartTime;
+        if (timeDiff >= 3000) {
+          setPendingShareReward(false);
+          setShareStartTime(null);
+          if (typeof window.onShareReward === 'function') {
+            window.onShareReward();
           }
+        } else {
+          setPendingShareReward(false);
+          setShareStartTime(null);
+          alert('シェアを完了してください。');
+          setShowShareModal(false);
+          onShare?.();
         }
       }
     };
     document.addEventListener('visibilitychange', handleVisibility);
     return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [pendingShareReward, shareStartTime]);
+  }, [pendingShareReward, shareStartTime, onShare]);
 
   const handleShare = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
